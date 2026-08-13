@@ -1,0 +1,52 @@
+name: "CI"
+
+on:
+    push:
+        branches: [master, dev]
+    pull_request:
+        branches: [master, dev]
+
+jobs:
+    security:
+        uses: deView-inc/.github/workflows/codeql.yml@master
+        with:
+            languages: javascript-typescript
+            build-mode: autobuild
+        secrets:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    label:
+        if: github.event_name == 'pull_request'
+        uses: deView-inc/.github/workflows/pr-labeler.yml@master
+        with:
+            config-path: .github/labeler.yml
+        secrets:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    docker:
+        needs: security
+        uses: deView-inc/.github/workflows/build.yml@master
+        with:
+            image-name: ${{ github.repository }}
+            dockerfile: ./Dockerfile
+            context: .
+            build-args: |
+                {
+                    "DATABASE_URL": "${{ secrets.DATABASE_URL }}",
+                    "NODE_ENV": "production"
+                }
+            push-on-branches: "master,dev"
+            tag-latest: true
+            tag-sha: true
+            tag-branch: true
+        secrets:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    stale:
+        if: github.event_name == 'schedule'
+        uses: deView-inc/.github/workflows/stale-cleanup.yml@master
+        with:
+            days-before-stale: 30
+            days-before-close: 5
+        secrets:
+            github-token: ${{ secrets.GITHUB_TOKEN }}

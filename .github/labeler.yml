@@ -1,0 +1,56 @@
+core:
+    - changed-files:
+          - any-glob-to-any-file: 'src/**/*'
+          - all-globs-to-all-files:
+                - '!src/shared/entities/**/*'
+                - '!src/**/*.spec.{ts,js}'
+
+database:
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'src/shared/entities/**/*'
+                - 'libs/database/**/*'
+                - 'migrations/**/*'
+                - 'drizzle.config.ts'
+
+dependencies:
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'package.json'
+                - 'pnpm-lock.yaml'
+                - 'pnpm-workspace.yaml'
+
+devops:
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'infra/**/*'
+                - '.github/workflows/**/*'
+                - 'Dockerfile*'
+                - '.dockerignore'
+
+testing:
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'test/**/*'
+                - 'src/**/*.spec.{ts,js}'
+                - 'k6/**/*'
+                - 'vitest.config*'
+
+libs:
+    - changed-files:
+          - any-glob-to-any-file: 'libs/**/*'
+          - all-globs-to-all-files:
+                - '!libs/database/**/*'
+
+dx:
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'pnpm-workspace.yaml'
+                - '.*'
+                - '!package.json'
+
+documentation:
+    - changed-files:
+          - any-glob-to-any-file:
+                - '**/*.md'
+                - 'LICENSE'

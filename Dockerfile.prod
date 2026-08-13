@@ -1,0 +1,52 @@
+FROM node:24-alpine AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+WORKDIR /app
+
+FROM base AS fetch
+
+COPY pnpm-lock.yaml package.json pnpm-workspace.yaml ./
+
+ENV CI=true
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm fetch
+
+FROM fetch AS build
+COPY package.json ./
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install -w --frozen-lockfile --offline
+
+COPY . .
+
+RUN pnpm run build
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm prune --prod --ignore-scripts
+
+FROM node:24-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=${PORT:-1010}
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nestjs
+
+COPY --from=build --chown=nestjs:nodejs /app/dist ./dist
+COPY --from=build --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=build --chown=nestjs:nodejs /app/templates ./templates
+COPY --from=build --chown=nestjs:nodejs /app/package.json ./
+COPY --from=build --chown=nestjs:nodejs /app/migrations ./migrations
+COPY --from=build --chown=nestjs:nodejs /app/drizzle.config.ts ./drizzle.config.ts
+
+USER nestjs
+
+EXPOSE $PORT
+
+CMD ["node", "dist/main"]
