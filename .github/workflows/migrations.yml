@@ -1,85 +1,84 @@
 name: "Database Consistency Check"
 
 on:
-    pull_request:
-        branches: [main, dev]
-        paths:
-            - "src/shared/entities/**"
-            - "migrations/**"
-            - "drizzle.config.ts"
-            - "package.json"
-    workflow_dispatch:
+  pull_request:
+    branches: [master, dev]
+    paths:
+      - "src/shared/entities/**"
+      - "migrations/**"
+      - "drizzle.config.ts"
+  workflow_dispatch:
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
-    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-    DB_USER: ci-workker
-    DB_PASSWORD: super-worker-password
-    DB_NAME: tmp
-    DB_URL: postgres://ci-worker:super-worker-password@localhost:5432/tmp
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  DB_USER: ci-workker
+  DB_PASSWORD: super-worker-password
+  DB_NAME: tmp
+  DB_URL: postgres://ci-worker:super-worker-password@localhost:5432/tmp
 
 jobs:
-    check:
-        name: "Check & Test"
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
+  check:
+    name: "Check & Test"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
-        services:
-            postgres:
-                image: postgres:15-alpine
-                env:
-                    POSTGRES_USER: ${{ env.DB_USER }}
-                    POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
-                    POSTGRES_DB: ${{ env.DB_NAME }}
-                ports:
-                    - 5432:5432
-                options: >-
-                    --health-cmd pg_isready
-                    --health-interval 10s
-                    --health-timeout 5s
-                    --health-retries 5
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 24
-                  cache: "pnpm"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "pnpm"
 
-            - name: Install
-              run: |
-                  echo "::group::pnpm install"
-                  pnpm install --frozen-lockfile
-                  echo "::endgroup::"
+      - name: Install
+        run: |
+          echo "::group::pnpm install"
+          pnpm install --frozen-lockfile
+          echo "::endgroup::"
 
-            - name: Drift Check
-              env:
-                  DATABASE_URL: ${{ env.DB_URL }}
-              run: |
-                  echo "::group::Drizzle Check"
-                  pnpm drizzle-kit check
-                  echo "::endgroup::"
+      - name: Drift Check
+        env:
+          DATABASE_URL: ${{ env.DB_URL }}
+        run: |
+          echo "::group::Drizzle Check"
+          pnpm drizzle-kit check
+          echo "::endgroup::"
 
-            - name: Seed
-              run: |
-                  echo "::group::Seed Data"
-                  # pnpm ts-node ./scripts/seed-ci.ts
-                  echo "Done"
-                  echo "::endgroup::"
+      - name: Seed
+        run: |
+          echo "::group::Seed Data"
+          # pnpm ts-node ./scripts/seed-ci.ts
+          echo "Done"
+          echo "::endgroup::"
 
-            - name: Migrate
-              env:
-                  DATABASE_URL: ${{ env.DB_URL }}
-              run: |
-                  echo "::group::Apply Schema"
-                  pnpm drizzle-kit push --force
-                  echo "::endgroup::"
+      - name: Migrate
+        env:
+          DATABASE_URL: ${{ env.DB_URL }}
+        run: |
+          echo "::group::Apply Schema"
+          pnpm drizzle-kit push --force
+          echo "::endgroup::"

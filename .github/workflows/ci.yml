@@ -5,34 +5,40 @@ on:
         branches: [master, dev]
     pull_request:
         branches: [master, dev]
+        types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+    actions: read
+    contents: read
+    security-events: write
+    pull-requests: write
+    issues: write
+    packages: write
 
 jobs:
     security:
-        uses: deView-inc/.github/workflows/codeql.yml@master
+        uses: deView-inc/.github/.github/workflows/codeql.yml@master
         with:
             languages: javascript-typescript
-            build-mode: autobuild
+            build-mode: none
         secrets:
             github-token: ${{ secrets.GITHUB_TOKEN }}
 
     label:
         if: github.event_name == 'pull_request'
-        uses: deView-inc/.github/workflows/pr-labeler.yml@master
+        uses: deView-inc/.github/.github/workflows/pr-labeler.yml@master
         with:
             config-path: .github/labeler.yml
-        secrets:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
 
     docker:
         needs: security
-        uses: deView-inc/.github/workflows/build.yml@master
+        uses: deView-inc/.github/.github/workflows/build.yml@master
         with:
             image-name: ${{ github.repository }}
             dockerfile: ./Dockerfile
             context: .
             build-args: |
                 {
-                    "DATABASE_URL": "${{ secrets.DATABASE_URL }}",
                     "NODE_ENV": "production"
                 }
             push-on-branches: "master,dev"
@@ -44,7 +50,7 @@ jobs:
 
     stale:
         if: github.event_name == 'schedule'
-        uses: deView-inc/.github/workflows/stale-cleanup.yml@master
+        uses: deView-inc/.github/.github/workflows/stale-cleanup.yml@master
         with:
             days-before-stale: 30
             days-before-close: 5
