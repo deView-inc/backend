@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -6,4 +7,6 @@ async function bootstrap() {
     await app.listen(3000);
 }
 
-bootstrap();
+bootstrap().catch((error) => {
+    console.error(error);
+});

@@ -1,14 +1,15 @@
-import { mergeConfig, defineConfig } from 'vitest/config';
+import { defineConfig, mergeConfig } from 'vitest/config';
+
 import baseConfig from './vitest.config';
 
 export default mergeConfig(
     baseConfig,
     defineConfig({
         test: {
-            include: ['test/**/*.e2e-spec.ts'],
             exclude: [],
-            pool: 'forks',
+            include: ['test/**/*.e2e-spec.ts'],
             isolate: true,
+            pool: 'forks',
         },
     }),
 );

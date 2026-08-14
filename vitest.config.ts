@@ -3,11 +3,23 @@ import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            src: path.resolve(__dirname, './src'),
+        },
+    },
     test: {
-        root: './',
-        globals: true,
+        alias: {
+            '@core': path.resolve(__dirname, './src'),
+            '@libs/bootstrap': path.join(process.cwd(), 'libs/bootstrap/src'),
+            '@libs/config': path.join(process.cwd(), 'libs/config/src'),
+            '@libs/database': path.join(process.cwd(), 'libs/database/src'),
+            '@libs/health': path.join(process.cwd(), 'libs/health/src'),
+            '@libs/imagor': path.join(process.cwd(), 'libs/s3/imagor'),
+            '@libs/s3': path.join(process.cwd(), 'libs/s3/src'),
+            '@shared': path.resolve(__dirname, './src/shared'),
+        },
         environment: 'node',
-        include: ['**/*.spec.ts'],
         exclude: [
             '**/node_modules/**',
             '**/dist/**',
@@ -15,23 +27,11 @@ export default defineConfig({
             '**/.{idea,git,cache,output,temp}/**',
             '**/infra/**',
         ],
-        alias: {
-            '@core': path.resolve(__dirname, './src'),
-            '@shared': path.resolve(__dirname, './src/shared'),
-            '@libs/bootstrap': path.join(process.cwd(), 'libs/bootstrap/src'),
-            '@libs/config': path.join(process.cwd(), 'libs/config/src'),
-            '@libs/database': path.join(process.cwd(), 'libs/database/src'),
-            '@libs/health': path.join(process.cwd(), 'libs/health/src'),
-            '@libs/imagor': path.join(process.cwd(), 'libs/s3/imagor'),
-            '@libs/s3': path.join(process.cwd(), 'libs/s3/src'),
-        },
+        globals: true,
+        include: ['**/*.spec.ts'],
+        root: './',
         typecheck: {
             enabled: true,
-        },
-    },
-    resolve: {
-        alias: {
-            src: path.resolve(__dirname, './src'),
         },
     },
 });
