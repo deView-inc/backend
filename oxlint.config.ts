@@ -17,7 +17,7 @@ export default defineConfig({
         '**/*.js',
         '**/*.d.ts',
         '*.config*.ts',
-        'infra',
+        'infra/*',
         'migrations',
     ],
 

@@ -15,10 +15,13 @@ concurrency:
 
 env:
     FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-    DB_USER: ci-workker
+    DB_USER: ci-worker
     DB_PASSWORD: super-worker-password
     DB_NAME: tmp
     DB_URL: postgres://ci-worker:super-worker-password@localhost:5432/tmp
+
+permissions:
+    contents: read
 
 jobs:
     check:
@@ -60,6 +63,14 @@ jobs:
                   pnpm install --frozen-lockfile
                   echo "::endgroup::"
 
+            - name: Generate Drizzle Kit
+              env:
+                  DATABASE_URL: ${{ env.DB_URL }}
+              run: |
+                  echo "::group::Drizzle Generate"
+                  pnpm drizzle-kit generate
+                  echo "::endgroup::"
+
             - name: Drift Check
               env:
                   DATABASE_URL: ${{ env.DB_URL }}
@@ -68,17 +79,17 @@ jobs:
                   pnpm drizzle-kit check
                   echo "::endgroup::"
 
-            - name: Seed
-              run: |
-                  echo "::group::Seed Data"
-                  # pnpm ts-node ./scripts/seed-ci.ts
-                  echo "Done"
-                  echo "::endgroup::"
-
             - name: Migrate
               env:
                   DATABASE_URL: ${{ env.DB_URL }}
               run: |
                   echo "::group::Apply Schema"
                   pnpm drizzle-kit push --force
+                  echo "::endgroup::"
+
+            - name: Seed (Optional)
+              run: |
+                  echo "::group::Seed Data"
+                  # pnpm ts-node ./scripts/seed-ci.ts
+                  echo "✅ Seed skipped - add your seed script here"
                   echo "::endgroup::"
