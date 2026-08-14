@@ -1,4 +1,4 @@
-name: "CI"
+name: 'CI'
 
 on:
     push:
@@ -41,7 +41,7 @@ jobs:
                 {
                     "NODE_ENV": "production"
                 }
-            push-on-branches: "master,dev"
+            push-on-branches: 'master,dev'
             tag-latest: true
             tag-sha: true
             tag-branch: true

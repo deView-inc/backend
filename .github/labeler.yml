@@ -1,56 +1,56 @@
 core:
-  - changed-files:
-      - any-glob-to-any-file: "src/**/*"
-      - all-globs-to-all-files:
-          - "!src/shared/entities/**/*"
-          - "!src/**/*.spec.{ts,js}"
+    - changed-files:
+          - any-glob-to-any-file: 'src/**/*'
+          - all-globs-to-all-files:
+                - '!src/shared/entities/**/*'
+                - '!src/**/*.spec.{ts,js}'
 
 database:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "src/shared/entities/**/*"
-          - "libs/database/**/*"
-          - "migrations/**/*"
-          - "drizzle.config.ts"
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'src/shared/entities/**/*'
+                - 'libs/database/**/*'
+                - 'migrations/**/*'
+                - 'drizzle.config.ts'
 
 deps:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "package.json"
-          - "pnpm-lock.yaml"
-          - "pnpm-workspace.yaml"
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'package.json'
+                - 'pnpm-lock.yaml'
+                - 'pnpm-workspace.yaml'
 
 devops:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "infra/**/*"
-          - ".github/workflows/**/*"
-          - "Dockerfile*"
-          - ".dockerignore"
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'infra/**/*'
+                - '.github/workflows/**/*'
+                - 'Dockerfile*'
+                - '.dockerignore'
 
 test:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "test/**/*"
-          - "src/**/*.spec.{ts,js}"
-          - "k6/**/*"
-          - "vitest.config*"
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'test/**/*'
+                - 'src/**/*.spec.{ts,js}'
+                - 'k6/**/*'
+                - 'vitest.config*'
 
 libs:
-  - changed-files:
-      - any-glob-to-any-file: "libs/**/*"
-      - all-globs-to-all-files:
-          - "!libs/database/**/*"
+    - changed-files:
+          - any-glob-to-any-file: 'libs/**/*'
+          - all-globs-to-all-files:
+                - '!libs/database/**/*'
 
 dx:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "pnpm-workspace.yaml"
-          - ".*"
-          - "!package.json"
+    - changed-files:
+          - any-glob-to-any-file:
+                - 'pnpm-workspace.yaml'
+                - '.*'
+                - '!package.json'
 
 docs:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "**/*.md"
-          - "LICENSE"
+    - changed-files:
+          - any-glob-to-any-file:
+                - '**/*.md'
+                - 'LICENSE'
