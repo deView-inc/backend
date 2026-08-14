@@ -29,6 +29,12 @@ export default defineConfig({
         {
             files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
             rules: {
+                'func-style': 'off',
+                'sort-imports': 'off',
+                'one-var': 'off',
+                'sort-keys': 'off',
+                'max-statements': 'off',
+
                 'constructor-super': 'off',
                 'getter-return': 'off',
                 'no-class-assign': 'off',

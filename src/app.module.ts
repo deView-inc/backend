@@ -3,12 +3,10 @@ import { ConfigService } from '@nestjs/config';
 
 import { ConfigModule } from '../libs/config/src';
 import { DatabaseModule } from '../libs/database/src';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import * as schema from './shared/entities';
 
 @Module({
-    controllers: [AppController],
+    controllers: [],
     imports: [
         ConfigModule,
         DatabaseModule.registerAsync({
@@ -21,6 +19,6 @@ import * as schema from './shared/entities';
             }),
         }),
     ],
-    providers: [AppService],
+    providers: [],
 })
 export class AppModule {}
