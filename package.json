@@ -4,7 +4,6 @@
     "description": "",
     "license": "Apache-2.0",
     "author": "Danil <karpuhinlox12@gmail.com>",
-    "type": "module",
     "scripts": {
         "build": "nest build",
         "start": "nest start",
