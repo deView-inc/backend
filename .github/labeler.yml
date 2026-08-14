@@ -13,7 +13,7 @@ database:
                 - 'migrations/**/*'
                 - 'drizzle.config.ts'
 
-dependencies:
+deps:
     - changed-files:
           - any-glob-to-any-file:
                 - 'package.json'
@@ -28,7 +28,7 @@ devops:
                 - 'Dockerfile*'
                 - '.dockerignore'
 
-testing:
+test:
     - changed-files:
           - any-glob-to-any-file:
                 - 'test/**/*'
@@ -49,7 +49,7 @@ dx:
                 - '.*'
                 - '!package.json'
 
-documentation:
+docs:
     - changed-files:
           - any-glob-to-any-file:
                 - '**/*.md'

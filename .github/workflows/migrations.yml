@@ -1,13 +1,12 @@
-name: "Database Consistency Check"
+name: 'Database Consistency Check'
 
 on:
     pull_request:
-        branches: [main, dev]
+        branches: [master, dev]
         paths:
-            - "src/shared/entities/**"
-            - "migrations/**"
-            - "drizzle.config.ts"
-            - "package.json"
+            - 'src/shared/entities/**'
+            - 'migrations/**'
+            - 'drizzle.config.ts'
     workflow_dispatch:
 
 concurrency:
@@ -23,7 +22,7 @@ env:
 
 jobs:
     check:
-        name: "Check & Test"
+        name: 'Check & Test'
         runs-on: ubuntu-latest
         timeout-minutes: 10
 
@@ -53,7 +52,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 24
-                  cache: "pnpm"
+                  cache: 'pnpm'
 
             - name: Install
               run: |
