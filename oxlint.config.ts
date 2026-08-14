@@ -11,21 +11,23 @@ export default defineConfig({
         builtin: true,
     },
 
-    ignorePatterns: ['node_modules', 'dist', '**/*.js', '**/*.d.ts', 'infra', 'migrations'],
-
-    jsPlugins: ['eslint-plugin-functional', 'eslint-plugin-sonarjs'],
+    ignorePatterns: [
+        'node_modules',
+        'dist',
+        '**/*.js',
+        '**/*.d.ts',
+        '*.config*.ts',
+        'infra',
+        'migrations',
+    ],
 
     options: {
         typeAware: true,
     },
 
     overrides: [
-        /*
-         * TypeScript-specific rules
-         */
         {
             files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
-
             rules: {
                 'constructor-super': 'off',
                 'getter-return': 'off',
@@ -43,52 +45,8 @@ export default defineConfig({
                 'no-unreachable': 'off',
                 'no-unsafe-negation': 'off',
                 'no-with': 'off',
-
-                'prefer-rest-params': 'error',
-                'prefer-spread': 'error',
             },
         },
-
-        /*
-         * Infrastructure / migrations / config
-         */
-        {
-            files: ['infra/**/*.ts', '**/migrations/**/*.ts', '**/*.config.ts', 'libs/**/*.ts'],
-
-            jsPlugins: ['eslint-plugin-functional'],
-
-            rules: {
-                'functional/immutable-data': 'off',
-                'functional/no-conditional-statements': 'off',
-            },
-        },
-
-        /*
-         * NestJS architectural files
-         */
-        {
-            files: [
-                '**/*.{facade,repository,service,controller,query,use-case,adapter}.ts',
-                '**/controller.ts',
-                '**/adapter.ts',
-            ],
-
-            jsPlugins: ['eslint-plugin-sonarjs', 'eslint-plugin-functional'],
-
-            rules: {
-                'functional/immutable-data': 'off',
-                'no-unused-vars': 'off',
-                'no-useless-constructor': 'off',
-                'require-await': 'off',
-                'sonarjs/cognitive-complexity': 'off',
-                'unicorn/no-useless-undefined': 'off',
-                'unicorn/prefer-export-from': 'off',
-            },
-        },
-
-        /*
-         * Import type { AppService } breaks NestJS runtime metadata.
-         */
         {
             files: [
                 '**/*.controller.ts',
@@ -100,23 +58,34 @@ export default defineConfig({
                 '**/*.filter.ts',
                 '**/*.middleware.ts',
                 '**/*.resolver.ts',
+                '**/*.decorator.ts',
+                '**/*.exception.ts',
             ],
-
             rules: {
                 'typescript/consistent-type-imports': 'off',
+                'new-cap': 'off',
+                'typescript/parameter-properties': 'off',
+            },
+        },
+        {
+            files: ['**/*.spec.ts', '**/*.test.ts', '**/test/**/*.ts', '**/e2e/**/*.ts'],
+            rules: {
+                'no-magic-numbers': 'off',
+                'init-declarations': 'off',
+            },
+        },
+        {
+            files: ['**/main.ts', '**/index.ts', '**/cli.ts'],
+            rules: {
+                'func-style': 'off',
+                'no-magic-numbers': 'off',
             },
         },
     ],
 
-    plugins: ['typescript', 'unicorn', 'jsdoc'],
+    plugins: ['typescript', 'unicorn', 'jsdoc', 'node'],
 
     rules: {
-        /*
-         * =========================
-         * JavaScript
-         * =========================
-         */
-
         'constructor-super': 'error',
         'for-direction': 'error',
         'getter-return': 'error',
@@ -176,28 +145,20 @@ export default defineConfig({
         'require-yield': 'error',
         'use-isnan': 'error',
         'valid-typeof': 'error',
-
         'no-array-constructor': 'error',
         'no-unused-expressions': 'error',
         'no-duplicate-imports': 'error',
-
         'no-console': [
             'warn',
             {
                 allow: ['warn', 'error'],
             },
         ],
-
         'no-shadow': 'error',
-
         'no-param-reassign': 'warn',
-
         'no-promise-executor-return': 'error',
-
         'no-await-in-loop': 'warn',
-
         'no-useless-return': 'warn',
-
         eqeqeq: ['error', 'always'],
         curly: ['error', 'all'],
         'no-var': 'error',
@@ -207,12 +168,6 @@ export default defineConfig({
         'arrow-body-style': ['error', 'as-needed'],
         'prefer-arrow-callback': 'warn',
         'prefer-destructuring': 'warn',
-
-        /*
-         * =========================
-         * TypeScript
-         * =========================
-         */
 
         'typescript/ban-ts-comment': 'error',
 
@@ -253,12 +208,6 @@ export default defineConfig({
         'typescript/no-floating-promises': 'error',
         'typescript/await-thenable': 'error',
 
-        /*
-         * =========================
-         * Unicorn
-         * =========================
-         */
-
         'unicorn/filename-case': [
             'error',
             {
@@ -275,52 +224,8 @@ export default defineConfig({
         'unicorn/prefer-spread': 'warn',
         'unicorn/no-array-reduce': 'warn',
 
-        /*
-         * =========================
-         * Functional
-         * =========================
-         */
-
-        'functional/prefer-readonly-type': 'off',
-        'functional/no-conditional-statements': 'off',
-        'functional/no-return-void': 'off',
-        'functional/immutable-data': 'warn',
-        'functional/no-let': 'off',
-        'functional/no-expression-statements': 'off',
-
-        /*
-         * =========================
-         * SonarJS
-         * =========================
-         */
-
-        'sonarjs/cognitive-complexity': ['error', 15],
-
-        'sonarjs/no-duplicate-string': [
-            'warn',
-            {
-                threshold: 5,
-            },
-        ],
-
-        'sonarjs/no-identical-functions': 'error',
-        'sonarjs/no-collapsible-if': 'error',
-        'sonarjs/no-unused-collection': 'error',
-
-        /*
-         * =========================
-         * JSDoc
-         * =========================
-         */
-
         'jsdoc/require-param-type': 'error',
         'jsdoc/require-returns-type': 'error',
-
-        /*
-         * =========================
-         * Restrictions
-         * =========================
-         */
 
         'no-restricted-properties': [
             'error',
