@@ -1,10 +1,10 @@
-import { DatabaseHealthService } from './database-health.service';
 import { Inject, Logger, Module, OnApplicationShutdown } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
 import { DATABASE_SERVICE, SQL_CLIENT } from './constants';
+import { DatabaseHealthService } from './database-health.service';
 import {
     ConfigurableModuleClass,
     MODULE_OPTIONS_TOKEN,
@@ -13,6 +13,7 @@ import {
 import { MigrationService } from './migration.service';
 
 @Module({
+    exports: [DATABASE_SERVICE, DatabaseHealthService],
     providers: [
         MigrationService,
         DatabaseHealthService,
@@ -65,7 +66,6 @@ import { MigrationService } from './migration.service';
             },
         },
     ],
-    exports: [DATABASE_SERVICE, DatabaseHealthService],
 })
 export class DatabaseModule extends ConfigurableModuleClass implements OnApplicationShutdown {
     private readonly logger = new Logger(DatabaseModule.name);

@@ -1,9 +1,8 @@
-import { asc, desc, type SQL } from 'drizzle-orm';
+import { type SQL, asc, desc } from 'drizzle-orm';
+import type { PgColumn } from 'drizzle-orm/pg-core';
 
 import { FILTER_MAP } from '../constants';
-
 import type { FilterCondition, SortConfig } from '../interfaces';
-import type { PgColumn } from 'drizzle-orm/pg-core';
 
 export const applyFilter = ({ column, operator, value }: FilterCondition): SQL =>
     (FILTER_MAP[operator] ?? FILTER_MAP.eq)(column, value);
@@ -21,12 +20,12 @@ export const buildConditions = (options: {
     if (options.filters?.length) {
         conditions.push(...options.filters.map(applyFilter));
     }
-    // if (options.search?.value && options.search.columns?.length) {
-    //     const searchConditions = options.search.columns.map((col) =>
-    //         ilike(col, `%${options.search.value}%`),
+    // If (options.search?.value && options.search.columns?.length) {
+    //     Const searchConditions = options.search.columns.map((col) =>
+    //         Ilike(col, `%${options.search.value}%`),
     //     );
-    //     conditions.push(
-    //         searchConditions.length === 1 ? searchConditions[0] : or(...searchConditions),
+    //     Conditions.push(
+    //         SearchConditions.length === 1 ? searchConditions[0] : or(...searchConditions),
     //     );
     // }
     return conditions;
@@ -46,5 +45,5 @@ export const decode = (cursor: string): unknown => {
     if (!cursor) {
         return null;
     }
-    return JSON.parse(Buffer.from(cursor, 'base64').toString('utf-8'));
+    return JSON.parse(Buffer.from(cursor, 'base64').toString('utf8'));
 };

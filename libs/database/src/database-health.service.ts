@@ -1,6 +1,7 @@
-import { SQL_CLIENT } from './constants';
 import { Inject, Injectable } from '@nestjs/common';
 import { Sql } from 'postgres';
+
+import { SQL_CLIENT } from './constants';
 
 @Injectable()
 export class DatabaseHealthService {

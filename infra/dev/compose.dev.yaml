@@ -3,36 +3,32 @@ version: '3.9'
 name: deView-api
 
 services:
-  database:
-    hostname: database
-    image: postgres:16-alpine
-    restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
-    ports:
-      - '6000:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - backend
-    healthcheck:
-      test: [
-        'CMD-SHELL',
-        'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -q
-                    || exit 1',
-      ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    profiles: ['infra']
+    database:
+        hostname: database
+        image: postgres:16-alpine
+        restart: unless-stopped
+        env_file:
+            - .env
+        environment:
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+        ports:
+            - '6000:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - backend
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -q || exit 1']
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        profiles: ['infra']
 
 volumes:
-  postgres_data:
+    postgres_data:
 
 networks:
-  backend:
-    name: deView-gateway
+    backend:
+        name: deView-gateway

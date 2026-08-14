@@ -1,9 +1,8 @@
-import { lt, gt, and } from "drizzle-orm";
+import { and, gt, lt } from 'drizzle-orm';
+import type { PgSelect } from 'drizzle-orm/pg-core';
 
-import { applyOrder, buildConditions } from "./utils";
-
-import type { CursorOptions, CursorResult } from "../interfaces";
-import type { PgSelect } from "drizzle-orm/pg-core";
+import type { CursorOptions, CursorResult } from '../interfaces';
+import { applyOrder, buildConditions } from './utils';
 
 /**
  * Выполняет курсорную пагинацию на основе уникального поля `id`.
@@ -36,40 +35,40 @@ import type { PgSelect } from "drizzle-orm/pg-core";
  * ```
  */
 export async function paginateCursor<TRow>(
-  query: PgSelect,
-  options: CursorOptions,
+    query: PgSelect,
+    options: CursorOptions,
 ): Promise<CursorResult<TRow>> {
-  const MAX_LIMIT = 50;
-  const DEFAULT_LIMIT = 25;
-  const limit = Math.min(Math.max(1, options.limit ?? DEFAULT_LIMIT), MAX_LIMIT) + 1;
+    const MAX_LIMIT = 50,
+        DEFAULT_LIMIT = 25,
+        limit = Math.min(Math.max(1, options.limit ?? DEFAULT_LIMIT), MAX_LIMIT) + 1,
+        sort = options.sort ?? { column: options.column, order: 'asc' as const };
+    if (!sort.column) {
+        throw new Error('Sort column is required for cursor pagination');
+    }
 
-  const sort = options.sort ?? { column: options.column, order: "asc" as const };
-  if (!sort.column) {
-    throw new Error("Sort column is required for cursor pagination");
-  }
+    const conditions = buildConditions(options);
 
-  const conditions = buildConditions(options);
+    if (options.cursor) {
+        conditions.push(
+            sort.order === 'desc'
+                ? lt(sort.column, options.cursor)
+                : gt(sort.column, options.cursor),
+        );
+    }
 
-  if (options.cursor) {
-    conditions.push(
-      sort.order === "desc" ? lt(sort.column, options.cursor) : gt(sort.column, options.cursor),
-    );
-  }
+    const orderByClause = applyOrder(sort),
+        filteredQuery = conditions.length > 0 ? query.where(and(...conditions)) : query,
+        items = await filteredQuery.orderBy(orderByClause).limit(limit),
+        hasNext = items.length === limit;
 
-  const orderByClause = applyOrder(sort);
-  const filteredQuery = conditions.length > 0 ? query.where(and(...conditions)) : query;
+    if (hasNext) {
+        items.pop();
+    }
 
-  const items = await filteredQuery.orderBy(orderByClause).limit(limit);
-  const hasNext = items.length === limit;
+    const next = hasNext && items.length > 0 ? String(items[items.length - 1]?.['id']) : null;
 
-  if (hasNext) {
-    items.pop();
-  }
-
-  const next = hasNext && items.length > 0 ? String(items[items.length - 1]?.["id"]) : null;
-
-  return {
-    items: items as TRow[],
-    meta: { next, hasNext, limit: limit - 1 },
-  };
+    return {
+        items: items as TRow[],
+        meta: { hasNext, limit: limit - 1, next },
+    };
 }
