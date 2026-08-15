@@ -1,8 +1,10 @@
+import { ConfigModule } from '@libs/config';
+import { DatabaseModule } from '@libs/database';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
+import { GlobalExceptionFilter } from '@shared/error';
 
-import { ConfigModule } from '../libs/config/src';
-import { DatabaseModule } from '../libs/database/src';
 import * as schema from './shared/entities';
 
 @Module({
@@ -19,6 +21,11 @@ import * as schema from './shared/entities';
             }),
         }),
     ],
-    providers: [],
+    providers: [
+        {
+            provide: APP_FILTER,
+            useClass: GlobalExceptionFilter,
+        },
+    ],
 })
 export class AppModule {}
