@@ -1,9 +1,11 @@
+import { UserModule } from '@core/user';
 import { ConfigModule } from '@libs/config';
 import { DatabaseModule } from '@libs/database';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { GlobalExceptionFilter } from '@shared/error';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 import * as schema from './shared/entities';
 
@@ -20,8 +22,13 @@ import * as schema from './shared/entities';
                 logging: true,
             }),
         }),
+        UserModule,
     ],
     providers: [
+        {
+            provide: APP_PIPE,
+            useClass: ZodValidationPipe,
+        },
         {
             provide: APP_FILTER,
             useClass: GlobalExceptionFilter,
