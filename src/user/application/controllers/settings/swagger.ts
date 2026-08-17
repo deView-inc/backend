@@ -17,6 +17,6 @@ export const PatchMeNotificationsSwagger = () =>
             status: 200,
             description: 'Настройки успешно сохранены.',
         }),
-        new ApiValidationError('Некорректный формат настроек'),
+        ApiValidationError('Некорректный формат настроек'),
         ApiUnauthorized(),
     );

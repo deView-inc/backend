@@ -33,7 +33,7 @@ export const PatchProfileSwagger = () =>
             status: 200,
             description: 'Профиль успешно обновлен.',
         }),
-        new ApiValidationError('Ошибка валидации (например, слишком короткое имя)', [
+        ApiValidationError('Ошибка валидации (например, слишком короткое имя)', [
             {
                 field: 'fullName',
                 message: 'Строка должна содержать минимум 2 символа',

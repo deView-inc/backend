@@ -38,6 +38,7 @@ export default defineConfig({
                 'parameter-properties': 'off',
                 'method-signature-style': 'off',
                 'consistent-type-imports': 'off',
+                'throw-new-error': 'off',
 
                 'constructor-super': 'off',
                 'getter-return': 'off',
