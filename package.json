@@ -10,6 +10,8 @@
         "start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "drizzle-kit migrate",
         "test": "vitest run",
         "test:w": "vitest",
         "test:c": "vitest run --coverage",
