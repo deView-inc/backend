@@ -25,12 +25,8 @@ export class UserProfileEntity {
 
     public toJson() {
         return {
-            ...this.user.toDetailsJson(),
+            profile: this.user.toDetailsJson(),
             preferences: this.preferences.toJson(),
         };
-    }
-
-    public toPublicJson() {
-        return this.user.toPublicJson();
     }
 }

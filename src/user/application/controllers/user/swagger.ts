@@ -1,7 +1,11 @@
-import { UpdateProfileDto, UserProfileDto } from '@core/user/application/dtos';
+import {
+    UpdateProfileDto,
+    UserProfileDto,
+    UserPublicProfileDto,
+} from '@core/user/application/dtos';
 import { applyDecorators, SetMetadata } from '@nestjs/common';
-import { ApiBody, ApiExtraModels, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ApiUnauthorized, ApiValidationError } from '@shared/error';
+import { ApiBody, ApiExtraModels, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiNotFound, ApiUnauthorized, ApiValidationError } from '@shared/error';
 import { ZOD_RESPONSE_TOKEN } from '@shared/interceptors';
 import { ActionResponse } from '@shared/schemas';
 
@@ -21,6 +25,24 @@ export const GetProfileSwagger = () =>
         ApiUnauthorized(),
 
         SetMetadata(ZOD_RESPONSE_TOKEN, UserProfileDto),
+    );
+
+export const GetPublicProfileSwagger = () =>
+    applyDecorators(
+        ApiExtraModels(UserPublicProfileDto.Output),
+        ApiOperation({
+            summary: 'Получить профиль другого пользователя',
+            description: 'Возвращает пуличный профиль пользователя( имя, грейд, стек...),',
+        }),
+        ApiParam({ name: 'username', description: 'Юзернейм пользователя' }),
+        ApiResponse({
+            status: 200,
+            description: 'Данные профиля успешно получены.',
+            type: UserPublicProfileDto.Output,
+        }),
+        ApiNotFound('Пользователь с таким юзернеймом не найден'),
+
+        SetMetadata(ZOD_RESPONSE_TOKEN, UserPublicProfileDto),
     );
 
 export const PatchProfileSwagger = () =>

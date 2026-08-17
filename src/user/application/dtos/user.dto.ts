@@ -18,6 +18,9 @@ export const UserSchema = z.object({
     firstName: z.string().describe('Имя'),
     lastName: z.string().nullable().describe('Фамилия'),
     displayName: z.string().describe('Имя и фамилия пользователя'),
+    isProfileComplete: z
+        .boolean()
+        .describe('Показывает заполнил ли пользователь свой профиль (био, фамилию, пол и тд)'),
     occupation: z
         .string()
         .nullable()
@@ -101,8 +104,19 @@ export const UserProfileSchema = z
         profile: UserSchema,
         preferences: PreferencesSchema,
     })
-    .describe('Схема профиля пользовател');
+    .describe('Схема профиля пользователя');
 export class UserProfileDto extends createZodDto(UserProfileSchema) {}
+
+export const UserPublicProfileSchema = z
+    .object({
+        profile: UserSchema.omit({
+            email: true,
+            isProfileComplete: true,
+            updatedAt: true,
+        }),
+    })
+    .describe('Схема публичного профиля пользователя');
+export class UserPublicProfileDto extends createZodDto(UserPublicProfileSchema) {}
 
 export const UpdateProfileSchema = requireAnyKey(
     z

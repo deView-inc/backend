@@ -7,15 +7,14 @@ import { ImageHelper } from '@shared/utils';
 import { UserErrorCodes, UserErrorMessages } from '../../domain/errors';
 
 @Injectable()
-export class FindProfileQuery {
+export class FindPublicProfileQuery {
     constructor(
         @Inject('IUserRepository') private readonly userRepo: IUserRepository,
         private readonly cfg: ConfigService,
     ) {}
 
-    async execute(userId: string) {
-        console.log('1');
-        const entity = await this.userRepo.findProfile(userId);
+    async execute(username: string) {
+        const entity = await this.userRepo.findByUsername(username);
 
         if (!entity) {
             throw new BaseException(
@@ -26,17 +25,13 @@ export class FindProfileQuery {
                 HttpStatus.NOT_FOUND,
             );
         }
-
-        const { avatarUrl, ...user } = entity.user.toDetailsJson();
-
+        const { avatarUrl, ...user } = entity.toPublicJson();
         const avatar = ImageHelper.responsive(this.cfg, avatarUrl);
-
         return {
             profile: {
                 ...user,
                 avatar,
             },
-            preferences: entity.preferences.toJson(),
         };
     }
 }

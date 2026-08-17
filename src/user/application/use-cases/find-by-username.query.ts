@@ -8,6 +8,7 @@ export class FindByUsernameQuery {
     constructor(@Inject('IUserRepository') private readonly userRepo: IUserRepository) {}
 
     async execute(username: string) {
+        console.log('2');
         const entity = await this.userRepo.findByUsername(username);
 
         if (!entity) {
