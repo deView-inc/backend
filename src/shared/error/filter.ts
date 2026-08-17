@@ -165,11 +165,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
         this.log(exception, host, status, { type: 'UNKNOWN_SERVER_ERROR' });
 
+        const stack = exception instanceof Error ? exception.stack : undefined;
+
         return response.status(status).send(
             this.formatErrorResponse(request, status, {
                 code: 'INTERNAL_SERVER_ERROR',
                 message: 'Произошла непредвиденная ошибка на сервере',
                 details: [],
+                stack,
             }),
         );
     }
