@@ -17,6 +17,7 @@ export const UserSchema = z.object({
     username: z.string().describe('Юзернейм, например @mikhail_rasputin'),
     firstName: z.string().describe('Имя'),
     lastName: z.string().nullable().describe('Фамилия'),
+    displayName: z.string().describe('Имя и фамилия пользователя'),
     occupation: z
         .string()
         .nullable()
@@ -66,6 +67,7 @@ export const CreateUserSchema = UserSchema.omit({
     id: true,
     username: true,
     lastName: true,
+    displayName: true,
     occupation: true,
     bio: true,
     location: true,
@@ -83,6 +85,7 @@ export const UpdateUserSchema = requireAnyKey(
     UserSchema.omit({
         id: true,
         username: true,
+        displayName: true,
         email: true,
         avatar: true,
         createdAt: true,

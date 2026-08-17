@@ -12,8 +12,8 @@ export class UpdateProfileUseCase {
         private readonly userRepo: IUserRepository,
     ) {}
 
-    async execute(_id: string, dto: UpdateProfileDto) {
-        const user = await this.userRepo.findById('euv5s4efd1mzukpv6kb651pv');
+    async execute(id: string, dto: UpdateProfileDto) {
+        const user = await this.userRepo.findById(id);
 
         if (!user) {
             throw new BaseException(

@@ -1,6 +1,8 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators, SetMetadata } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ApiUnauthorized, ApiValidationError } from '@shared/error';
+import { ZOD_RESPONSE_TOKEN } from '@shared/interceptors';
+import { ActionResponse } from '@shared/schemas';
 
 import { UpdateNotificationsDto } from '../../dtos';
 
@@ -19,4 +21,6 @@ export const PatchMeNotificationsSwagger = () =>
         }),
         ApiValidationError('Некорректный формат настроек'),
         ApiUnauthorized(),
+
+        SetMetadata(ZOD_RESPONSE_TOKEN, ActionResponse),
     );

@@ -13,8 +13,8 @@ export class FindProfileQuery {
         private readonly cfg: ConfigService,
     ) {}
 
-    async execute(_userId: string) {
-        const entity = await this.userRepo.findProfile('euv5s4efd1mzukpv6kb651pv');
+    async execute(userId: string) {
+        const entity = await this.userRepo.findProfile(userId);
 
         if (!entity) {
             throw new BaseException(

@@ -3,8 +3,9 @@ import { ConfigModule } from '@libs/config';
 import { DatabaseModule } from '@libs/database';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { GlobalExceptionFilter } from '@shared/error';
+import { ZodValidationInterceptor } from '@shared/interceptors';
 import { ZodValidationPipe } from 'nestjs-zod';
 
 import * as schema from './shared/entities';
@@ -32,6 +33,10 @@ import * as schema from './shared/entities';
         {
             provide: APP_FILTER,
             useClass: GlobalExceptionFilter,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: ZodValidationInterceptor,
         },
     ],
 })

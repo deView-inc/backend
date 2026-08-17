@@ -1,7 +1,9 @@
 import { UpdateProfileDto, UserProfileDto } from '@core/user/application/dtos';
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators, SetMetadata } from '@nestjs/common';
 import { ApiBody, ApiExtraModels, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ApiUnauthorized, ApiValidationError } from '@shared/error';
+import { ZOD_RESPONSE_TOKEN } from '@shared/interceptors';
+import { ActionResponse } from '@shared/schemas';
 
 export const GetProfileSwagger = () =>
     applyDecorators(
@@ -17,6 +19,8 @@ export const GetProfileSwagger = () =>
             type: UserProfileDto.Output,
         }),
         ApiUnauthorized(),
+
+        SetMetadata(ZOD_RESPONSE_TOKEN, UserProfileDto),
     );
 
 export const PatchProfileSwagger = () =>
@@ -41,4 +45,6 @@ export const PatchProfileSwagger = () =>
             },
         ]),
         ApiUnauthorized(),
+
+        SetMetadata(ZOD_RESPONSE_TOKEN, ActionResponse),
     );
