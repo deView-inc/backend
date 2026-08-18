@@ -121,7 +121,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             this.formatErrorResponse(request, status, {
                 code: error.code,
                 message: error.message || exception.message,
-                details: error.details || [],
+                details: this.isDev ? error.details || [] : [],
                 stack: exception.stack,
             }),
         );

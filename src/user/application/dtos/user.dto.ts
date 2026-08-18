@@ -66,57 +66,70 @@ export const UserSchema = z.object({
 });
 export class UserDto extends createZodDto(UserSchema) {}
 
-export const CreateUserSchema = UserSchema.omit({
-    id: true,
-    username: true,
-    lastName: true,
-    displayName: true,
-    occupation: true,
-    bio: true,
-    location: true,
-    gender: true,
-    pronouns: true,
-    pronounsCustom: true,
-    avatar: true,
-    createdAt: true,
-    updatedAt: true,
+export const CreateUserSchema = UserSchema.pick({
+    email: true,
+    firstName: true,
+    grade: true,
+    stack: true,
 }).describe('Схема для создания(регестрации) пользователя');
 
 export class CreateUserDto extends createZodDto(CreateUserSchema) {}
 
 export const UpdateUserSchema = requireAnyKey(
-    UserSchema.omit({
-        id: true,
-        username: true,
+    UserSchema.pick({
+        firstName: true,
+        lastName: true,
         displayName: true,
-        email: true,
-        avatar: true,
-        createdAt: true,
-        updatedAt: true,
+        bio: true,
+        grade: true,
+        stack: true,
+        location: true,
+        gender: true,
+        pronouns: true,
+        pronounsCustom: true,
+        occupation: true,
     })
         .partial()
         .describe('Схема для частичного обновления пользователя'),
 );
 export class UpdateUserDto extends createZodDto(UpdateUserSchema) {}
 
-export const UserProfileSchema = z
-    .object({
-        profile: UserSchema,
-        preferences: PreferencesSchema,
-    })
-    .describe('Схема профиля пользователя');
-export class UserProfileDto extends createZodDto(UserProfileSchema) {}
-
 export const UserPublicProfileSchema = z
     .object({
-        profile: UserSchema.omit({
-            email: true,
-            isProfileComplete: true,
-            updatedAt: true,
+        profile: UserSchema.pick({
+            id: true,
+            firstName: true,
+            lastName: true,
+            displayName: true,
+            username: true,
+            grade: true,
+            stack: true,
+            occupation: true,
+            bio: true,
+            location: true,
+            gender: true,
+            avatar: true,
+            pronouns: true,
+            pronounsCustom: true,
+            createdAt: true,
         }),
     })
     .describe('Схема публичного профиля пользователя');
 export class UserPublicProfileDto extends createZodDto(UserPublicProfileSchema) {}
+
+export const UserProfileSchema = z
+    .object({
+        profile: UserPublicProfileSchema.shape.profile.extend(
+            UserSchema.pick({
+                email: true,
+                isProfileComplete: true,
+                updatedAt: true,
+            }).shape,
+        ),
+        preferences: PreferencesSchema,
+    })
+    .describe('Схема профиля пользователя');
+export class UserProfileDto extends createZodDto(UserProfileSchema) {}
 
 export const UpdateProfileSchema = requireAnyKey(
     z

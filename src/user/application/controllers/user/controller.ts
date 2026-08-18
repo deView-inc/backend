@@ -9,19 +9,19 @@ import { GetProfileSwagger, GetPublicProfileSwagger, PatchProfileSwagger } from 
 export class UserController {
     constructor(private readonly facade: UserFacade) {}
 
+    @Get('me')
+    @GetProfileSwagger()
+    async getProfile(@GetUserId() id: string) {
+        return this.facade.getProfile(id);
+    }
+
     @Get(':username')
     @GetPublicProfileSwagger()
     async getPublicProfile(@Param('username') username: string) {
         return this.facade.getPublicProfile(username);
     }
 
-    @Get('/me')
-    @GetProfileSwagger()
-    async getProfile(@GetUserId() id: string) {
-        return this.facade.getProfile(id);
-    }
-
-    @Patch('/me')
+    @Patch('me')
     @PatchProfileSwagger()
     async updateProfile(@Body() dto: UpdateProfileDto, @GetUserId() id: string) {
         return this.facade.updateProfile(id, dto);

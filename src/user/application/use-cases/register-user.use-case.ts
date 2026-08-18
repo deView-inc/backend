@@ -14,7 +14,7 @@ export class RegisterUserUseCase {
     ) {}
 
     async execute(dto: CreateUserDto) {
-        const existingUser = await this.repository.findByEmail(dto.email);
+        const existingUser = await this.repository.findByEmail(dto.email.toLowerCase());
 
         if (existingUser) {
             throw new BaseException(
