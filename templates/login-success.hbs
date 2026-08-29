@@ -1,0 +1,377 @@
+<html lang='ru' xmlns:o='urn:schemas-microsoft-com:office:office'>
+    <head>
+        <meta charset='utf-8' />
+        <meta name='viewport' content='width=device-width,initial-scale=1' />
+        <meta name='x-apple-disable-message-reformatting' />
+        <meta name='color-scheme' content='dark' />
+        <meta name='supported-color-schemes' content='dark' />
+        <title>deView — Вы вошли в аккаунт</title>
+        <!--
+  ============================================================
+  02 · УСПЕШНЫЙ ВХОД (новое устройство)
+  Тема:      Вы вошли в deView — {{ device }}, {{ location_city }}
+  От:        deView <no-reply@deview.dev>
+  Прехедер:  Проверьте данные сессии
+
+    {{ assets_base_url }}          — АБСОЛЮТНЫЙ URL папки с иконками, без слэша на конце:
+                                    напр. https://cdn.deview.dev/mail — файлы лежат в ./icons
+
+  ПЕРЕМЕННЫЕ:
+    {{ account_email }}             — alex@mail.ru
+    {{ login_time }}                — 17 авг 2026, 14:32 МСК
+    {{ device }}                    — MacBook Pro · macOS 15
+    {{ browser }}                   — Chrome 141
+    {{ ip }}                        — 31.173.84.12
+    {{ location }}                  — Москва, Россия
+    {{ dashboard_url }}             — кнопка «Перейти в кабинет»
+    {{ not_me_url }}                — кнопка «Это был не я» (сброс сессий)
+    {{ help_url }}, {{ notification_settings_url }}, {{ year }}
+  ============================================================
+-->
+        <!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
+        <link
+            href='https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap'
+            rel='stylesheet'
+        />
+        <style>
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+            img {
+                border: 0;
+                outline: none;
+                text-decoration: none;
+                -ms-interpolation-mode: bicubic;
+            }
+            a {
+                color: #b9f24c;
+            }
+            @media only screen and (max-width: 620px) {
+                .wrap {
+                    width: 100% !important;
+                }
+                .px {
+                    padding-left: 18px !important;
+                    padding-right: 18px !important;
+                }
+                .stack {
+                    display: block !important;
+                    width: 100% !important;
+                    padding: 0 0 10px 0 !important;
+                }
+                .row-l,
+                .row-r {
+                    display: block !important;
+                    width: 100% !important;
+                    text-align: left !important;
+                }
+                .row-l {
+                    padding-bottom: 0 !important;
+                }
+                .row-r {
+                    padding-top: 2px !important;
+                }
+            }
+        </style>
+    </head>
+    <body style='margin:0;padding:0;background:#07080A;'>
+
+        <div
+            style='display:none;font-size:1px;color:#07080A;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;'
+        >Проверьте данные
+            сессии&#8199;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;</div>
+
+        <table
+            role='presentation'
+            width='100%'
+            cellpadding='0'
+            cellspacing='0'
+            border='0'
+            style='background:#07080A;'
+        >
+            <tr><td align='center' style='padding:32px 12px 40px;'>
+
+                    <table
+                        role='presentation'
+                        class='wrap'
+                        width='600'
+                        cellpadding='0'
+                        cellspacing='0'
+                        border='0'
+                        style='width:600px;max-width:600px;background:#0C0E11;border:1px solid #1c2026;border-radius:14px;overflow:hidden;'
+                    >
+
+                        <!-- ШАПКА -->
+                        <tr><td
+                                class='px'
+                                style='padding:18px 24px;background:#101215;border-bottom:1px solid #17191d;'
+                            >
+                                <table
+                                    role='presentation'
+                                    width='100%'
+                                    cellpadding='0'
+                                    cellspacing='0'
+                                    border='0'
+                                ><tr>
+                                        <td width='26' valign='middle' style='width:26px;'>
+                                            <table
+                                                role='presentation'
+                                                cellpadding='0'
+                                                cellspacing='0'
+                                                border='0'
+                                            ><tr>
+                                                    <td
+                                                        width='26'
+                                                        height='26'
+                                                        align='center'
+                                                        valign='middle'
+                                                        bgcolor='#B9F24C'
+                                                        style="width:26px;height:26px;line-height:26px;background:#B9F24C;border-radius:8px;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:13px;font-weight:700;color:#0A0C0E;"
+                                                    ><img
+                                                            src='cid:terminal-window'
+                                                            width='15'
+                                                            height='15'
+                                                            alt='&gt;_'
+                                                            style='display:block;margin:0 auto;border:0;'
+                                                        /></td>
+                                                </tr></table>
+                                        </td>
+                                        <td
+                                            valign='middle'
+                                            style="padding-left:10px;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:15px;font-weight:700;letter-spacing:-.01em;color:#E7EAED;white-space:nowrap;"
+                                        >deView</td>
+                                        <td
+                                            valign='middle'
+                                            align='right'
+                                            style="font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#626A73;"
+                                        >безопасность аккаунта</td>
+                                    </tr></table>
+                            </td></tr>
+
+                        <!-- ТЕЛО -->
+                        <tr><td class='px' style='padding:30px 24px 32px;'>
+
+                                <table
+                                    role='presentation'
+                                    cellpadding='0'
+                                    cellspacing='0'
+                                    border='0'
+                                    style='margin-bottom:20px;'
+                                ><tr>
+                                        <td
+                                            style='background:#1D2517;border:1px solid #3C4E22;border-radius:100px;padding:5px 12px;'
+                                        >
+                                            <table
+                                                role='presentation'
+                                                cellpadding='0'
+                                                cellspacing='0'
+                                                border='0'
+                                            ><tr>
+                                                    <td
+                                                        valign='middle'
+                                                        style='padding-right:7px;font-size:0;line-height:0;'
+                                                    ><img
+                                                            src='cid:sign-in.png'
+                                                            width='13'
+                                                            height='13'
+                                                            alt=''
+                                                            style='display:block;border:0;'
+                                                        /></td>
+                                                    <td
+                                                        valign='middle'
+                                                        style="font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:11px;line-height:1.3;color:#B9F24C;"
+                                                    >вход выполнен</td>
+                                                </tr></table>
+                                        </td>
+                                    </tr></table>
+
+                                <h1
+                                    style="margin:0 0 12px;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:23px;font-weight:600;letter-spacing:-.02em;line-height:1.25;color:#E7EAED;"
+                                >Вы вошли в аккаунт</h1>
+
+                                <p
+                                    style="margin:0 0 22px;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:15px;line-height:1.6;color:#98A0A8;"
+                                >Вход в deView выполнен успешно. Если это были вы — ничего делать не
+                                    нужно.</p>
+
+                                <!-- таблица данных сессии -->
+                                <table
+                                    role='presentation'
+                                    width='100%'
+                                    cellpadding='0'
+                                    cellspacing='0'
+                                    border='0'
+                                    style="border:1px solid #1c2026;border-radius:12px;overflow:hidden;margin-bottom:22px;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:12.5px;"
+                                >
+                                    <tr>
+                                        <td
+                                            class='row-l'
+                                            style='padding:12px 16px;background:#0A0B0D;border-bottom:1px solid #17191d;color:#626A73;'
+                                        >Аккаунт</td>
+                                        <td
+                                            class='row-r'
+                                            align='right'
+                                            style='padding:12px 16px;background:#0A0B0D;border-bottom:1px solid #17191d;color:#E7EAED;'
+                                        >{{account_email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            class='row-l'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#626A73;'
+                                        >Время</td>
+                                        <td
+                                            class='row-r'
+                                            align='right'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#E7EAED;'
+                                        >{{login_time}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            class='row-l'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#626A73;'
+                                        >Устройство</td>
+                                        <td
+                                            class='row-r'
+                                            align='right'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#E7EAED;'
+                                        >{{device}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            class='row-l'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#626A73;'
+                                        >Браузер</td>
+                                        <td
+                                            class='row-r'
+                                            align='right'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#E7EAED;'
+                                        >{{browser}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            class='row-l'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#626A73;'
+                                        >IP-адрес</td>
+                                        <td
+                                            class='row-r'
+                                            align='right'
+                                            style='padding:12px 16px;border-bottom:1px solid #17191d;color:#E7EAED;'
+                                        >{{ip}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            class='row-l'
+                                            style='padding:12px 16px;color:#626A73;'
+                                        >Местоположение</td>
+                                        <td
+                                            class='row-r'
+                                            align='right'
+                                            style='padding:12px 16px;color:#E7EAED;'
+                                        >{{location}}</td>
+                                    </tr>
+                                </table>
+
+                                <!-- две кнопки в ряд, на мобильном складываются -->
+                                <table
+                                    role='presentation'
+                                    width='100%'
+                                    cellpadding='0'
+                                    cellspacing='0'
+                                    border='0'
+                                    style='margin-bottom:18px;'
+                                ><tr>
+                                        <td
+                                            class='stack'
+                                            width='50%'
+                                            valign='top'
+                                            style='padding-right:5px;'
+                                        >
+                                            <table
+                                                role='presentation'
+                                                width='100%'
+                                                cellpadding='0'
+                                                cellspacing='0'
+                                                border='0'
+                                            ><tr>
+                                                    <td
+                                                        align='center'
+                                                        bgcolor='#B9F24C'
+                                                        style='background:#B9F24C;border-radius:11px;padding:13px 16px;'
+                                                    >
+                                                        <a
+                                                            href='{{dashboard_url}}'
+                                                            style="display:block;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:14.5px;font-weight:600;line-height:1.2;color:#0A0C0E;text-decoration:none;"
+                                                        >Перейти в кабинет</a>
+                                                    </td>
+                                                </tr></table>
+                                        </td>
+                                        <td
+                                            class='stack'
+                                            width='50%'
+                                            valign='top'
+                                            style='padding-left:5px;'
+                                        >
+                                            <table
+                                                role='presentation'
+                                                width='100%'
+                                                cellpadding='0'
+                                                cellspacing='0'
+                                                border='0'
+                                            ><tr>
+                                                    <td
+                                                        align='center'
+                                                        bgcolor='#14171B'
+                                                        style='background:#14171B;border:1px solid #2a2f37;border-radius:11px;padding:12px 16px;'
+                                                    >
+                                                        <a
+                                                            href='{{not_me_url}}'
+                                                            style="display:block;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:14.5px;font-weight:500;line-height:1.2;color:#E7EAED;text-decoration:none;"
+                                                        >Это был не я</a>
+                                                    </td>
+                                                </tr></table>
+                                        </td>
+                                    </tr></table>
+
+                                <p
+                                    style="margin:0;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:13.5px;line-height:1.6;color:#626A73;"
+                                >Не узнаёте вход? Нажмите «Это был не я» — мы завершим все сессии и
+                                    попросим сменить пароль.</p>
+
+                            </td></tr>
+
+                        <!-- ПОДВАЛ -->
+                        <tr><td
+                                class='px'
+                                style="padding:18px 24px 22px;background:#0A0B0D;border-top:1px solid #17191d;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:11px;line-height:1.75;color:#4d555e;"
+                            >
+                                deView · сервис технических интервью<br />
+                                Письмо о безопасности: приходит при каждом входе с нового
+                                устройства.<br />
+                                <a
+                                    href='{{help_url}}'
+                                    style='color:#626A73;text-decoration:underline;'
+                                >Помощь</a>
+                                &middot;
+                                <a
+                                    href='{{notification_settings_url}}'
+                                    style='color:#626A73;text-decoration:underline;'
+                                >Настройки уведомлений</a><br />
+                                &copy;
+                                {{year}}
+                                deView
+                            </td></tr>
+
+                    </table>
+
+                </td></tr></table>
+    </body>
+</html>

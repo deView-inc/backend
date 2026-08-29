@@ -1,0 +1,9 @@
+export const enum AuthQueues {
+    AUTH_MAIL = 'AUTH_MAIL_QUEUE',
+}
+
+export const enum AuthMailJobs {
+    SEND_REGISTER_CODE = 'AUTH_SEND_REGISTER_CODE',
+    SEND_LOGIN_CODE = 'AUTH_SEND_LOGIN_CODE',
+    SEND_CURRENT_SESSION = 'AUTH_SEND_CURRENT_SESSION',
+}

@@ -13,7 +13,7 @@ export const UserSchema = z.object({
         .string()
         .min(1, 'ID не может быть пустым')
         .describe('Уникальный идентификатор пользователя'),
-    email: z.email().describe('Почта пользователя'),
+    email: z.email().trim().toLowerCase().describe('Почта пользователя'),
     username: z.string().describe('Юзернейм, например @mikhail_rasputin'),
     firstName: z.string().describe('Имя'),
     lastName: z.string().nullable().describe('Фамилия'),

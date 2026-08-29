@@ -1,6 +1,5 @@
 import { UserController } from '@core/user/application/controllers';
 import {
-    RegisterUserUseCase,
     USER_EXTERNAL_USE_CASES,
     UserQueries,
     UserUseCases,
@@ -18,7 +17,7 @@ const REPOSITORY = {
     imports: [],
     controllers: [UserController],
     //TODO; remove register later
-    providers: [RegisterUserUseCase, ...UserUseCases, ...UserQueries, UserFacade, REPOSITORY],
+    providers: [...UserUseCases, ...UserQueries, UserFacade, REPOSITORY],
     exports: [...USER_EXTERNAL_USE_CASES],
 })
 export class UserModule {}

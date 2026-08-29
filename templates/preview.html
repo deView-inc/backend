@@ -1,0 +1,485 @@
+<title>Письма deView</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#07080A; --surface:#0C0E11; --panel:#0A0B0D; --raise:#101215;
+  --line:#17191d; --line2:#1c2026; --line3:#23272E;
+  --tx:#E7EAED; --mut:#98A0A8; --dim:#626A73; --faint:#4d555e;
+  --lime:#B9F24C; --coral:#FF6A5A; --violet:#A78BFA; --violet-tx:#c9b8ff;
+  --sans:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--tx);font-family:var(--sans);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.6}
+a{color:var(--lime);text-decoration:none}
+a:hover{color:#cdf76f}
+::selection{background:rgba(185,242,76,.28);color:#fff}
+.page{max-width:900px;margin:0 auto;padding:56px 24px 120px}
+
+/* ---------- шапка документа ---------- */
+.brandline{display:flex;align-items:center;gap:11px;margin-bottom:22px}
+.brandmark{width:32px;height:32px;border-radius:9px;background:var(--lime);color:#0A0C0E;display:grid;place-items:center}
+.brandmark svg{width:19px;height:19px}
+.brandname{font-weight:700;font-size:18px;letter-spacing:-.01em}
+h1{font-size:38px;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin:0 0 14px;text-wrap:balance}
+.lead{font-size:16px;line-height:1.65;color:var(--mut);margin:0;max-width:64ch}
+.doc-hd{padding-bottom:30px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.chips span{border:1px solid var(--line2);border-radius:8px;padding:7px 11px}
+
+/* ---------- панель-инструкция ---------- */
+.howto{background:var(--surface);border:1px solid var(--line2);border-radius:14px;padding:26px 28px;margin-bottom:20px}
+.howto h2{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0 0 14px}
+.howto p{color:var(--mut);font-size:14.5px;margin:0 0 12px;max-width:66ch}
+.howto p:last-child{margin-bottom:0}
+.howto code,.icode{font-family:var(--mono);font-size:12.5px;background:var(--panel);border:1px solid var(--line3);border-radius:5px;padding:1.5px 6px;color:var(--lime)}
+.filelist{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-top:18px;font-family:var(--mono);font-size:12.5px}
+.filelist span{border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--mut)}
+
+/* ---------- переключатель ---------- */
+.bar{position:sticky;top:0;z-index:20;background:rgba(7,8,10,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin:0 -24px 40px;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar .hint{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.toggle{font-family:var(--mono);font-size:12px;color:#0A0C0E;background:var(--lime);border:1px solid var(--lime);border-radius:9px;padding:8px 14px;cursor:pointer;transition:background .15s}
+.toggle:hover{background:#cdf76f}
+.toggle[aria-pressed="false"]{background:transparent;color:var(--mut);border-color:var(--line3)}
+.toggle[aria-pressed="false"]:hover{border-color:#3a424b;color:var(--tx)}
+.toggle:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+
+/* ---------- переменные ---------- */
+.v{cursor:help}
+body.show-vars .v{font-size:0!important;letter-spacing:0!important}
+body.show-vars .v::after{content:"{{ " attr(data-var) " }}";font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:0;color:var(--lime);white-space:nowrap}
+
+/* ---------- секция письма ---------- */
+.mailsec{padding-top:52px;border-top:1px solid var(--line);margin-top:52px}
+.meta{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--dim);margin-bottom:16px}
+.meta .no{font-weight:500}
+.no.lime{color:var(--lime)} .no.coral{color:var(--coral)} .no.violet{color:var(--violet-tx)}
+
+/* ---------- письмо ---------- */
+.mail{width:600px;max-width:100%;background:var(--surface);border:1px solid var(--line2);border-radius:14px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.mail.alarm{border-color:#2a1b19}
+.mail-hd{display:flex;align-items:center;gap:10px;padding:18px 24px;background:var(--raise);border-bottom:1px solid var(--line)}
+.mail-logo{width:26px;height:26px;border-radius:8px;background:var(--lime);color:#0A0C0E;display:grid;place-items:center;flex:none}
+.mail-logo svg{width:15px;height:15px}
+.mail-brand{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.mail-kicker{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.mail-kicker.coral{color:var(--coral)}
+.mail-body{padding:30px 24px 32px}
+.mail-ft{padding:18px 24px 22px;background:var(--panel);border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;line-height:1.75;color:var(--faint)}
+.mail-ft a{color:var(--dim);text-decoration:underline}
+.mail h3{font-size:23px;font-weight:600;letter-spacing:-.02em;line-height:1.25;margin:0 0 12px;text-wrap:balance}
+.mail .txt{font-size:15px;line-height:1.6;color:var(--mut);margin:0 0 22px}
+.mail .fine{font-size:13.5px;line-height:1.6;color:var(--dim);margin:0}
+.pill{display:inline-flex;align-items:center;gap:7px;border-radius:100px;padding:5px 12px;font-family:var(--mono);font-size:11px;line-height:1.3;margin-bottom:20px}
+.pill svg{width:13px;height:13px;flex:none}
+.pill.lime{background:rgba(185,242,76,.1);border:1px solid rgba(185,242,76,.28);color:var(--lime)}
+.pill.coral{background:rgba(255,106,90,.1);border:1px solid rgba(255,106,90,.3);color:var(--coral)}
+.pill.violet{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);color:var(--violet-tx)}
+
+.code-box{background:var(--panel);border:1px solid var(--line3);border-radius:12px;padding:22px;text-align:center;margin-bottom:22px}
+.code-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.code-val{font-family:var(--mono);font-size:38px;font-weight:700;letter-spacing:.22em;line-height:1.1;color:var(--lime)}
+
+.btn{display:block;text-align:center;border-radius:11px;padding:14px;font-weight:600;font-size:15px;line-height:1.2}
+.btn.primary{background:var(--lime);color:#0A0C0E}
+.btn.primary:hover{background:#cdf76f;color:#0A0C0E}
+.btn.danger{background:var(--coral);color:#1a0806}
+.btn.danger:hover{background:#ff8072;color:#1a0806}
+.btn.ghost{background:#14171B;border:1px solid #2a2f37;color:var(--tx);font-weight:500;font-size:14.5px;padding:13px}
+.btn.ghost:hover{border-color:#3a424b;color:var(--tx)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn-row .btn{flex:1;min-width:190px;padding:13px;font-size:14.5px}
+.mb18{margin-bottom:18px}.mb10{margin-bottom:10px}.mb22{margin-bottom:22px}
+
+.dl{border:1px solid var(--line2);border-radius:12px;overflow:hidden;margin-bottom:22px;font-family:var(--mono);font-size:12.5px}
+.dl > div{display:flex;justify-content:space-between;gap:16px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.dl > div:first-child{background:var(--panel)}
+.dl > div:last-child{border-bottom:0}
+.dl dt,.dl b{color:var(--dim);font-weight:400}
+.dl dd{margin:0;color:var(--tx);text-align:right}
+.alert-dl{border:1px solid #2a1b19;background:rgba(255,106,90,.05);border-radius:12px;padding:16px;margin-bottom:22px;display:flex;flex-direction:column;gap:10px;font-family:var(--mono);font-size:12.5px}
+.alert-dl > div{display:flex;justify-content:space-between;gap:16px}
+.alert-dl b{color:var(--dim);font-weight:400}
+.hot{color:var(--coral)}
+
+.facts{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.fact{flex:1;min-width:150px;background:var(--panel);border:1px solid var(--line3);border-radius:12px;padding:16px}
+.fact .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.fact .val{font-family:var(--mono);font-size:15px;color:var(--tx)}
+.quote{border-left:2px solid var(--violet);padding:2px 0 2px 14px;margin-bottom:22px;font-size:14px;line-height:1.6;color:var(--mut)}
+
+.person-card{background:var(--panel);border:1px solid var(--line3);border-radius:12px;padding:18px;margin-bottom:22px}
+.person{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.avatar{width:44px;height:44px;border-radius:50%;background:hsl(265 46% 20%);color:hsl(265 85% 76%);display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:14px;flex:none}
+.person-name{font-weight:600;font-size:15px}
+.person-meta{font-family:var(--mono);font-size:12px;color:var(--dim);line-height:1.45}
+.session{display:flex;gap:8px 16px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px}
+.session b{color:var(--dim);font-weight:400}
+
+.price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;font-family:var(--mono)}
+.price-new{font-size:32px;font-weight:700;color:var(--lime)}
+.price-old{font-size:14px;color:var(--dim);text-decoration:line-through}
+.price-per{font-size:12px;color:var(--mut)}
+.features{display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--mut)}
+.features span{display:flex;align-items:flex-start;gap:9px}
+.features svg{width:16px;height:16px;flex:none;color:var(--lime);margin-top:2px}
+.center-note{font-size:13px;line-height:1.6;color:var(--dim);margin:0;text-align:center;font-family:var(--mono)}
+
+/* ---------- таблица переменных ---------- */
+.varsec{margin-top:26px}
+.varsec h4{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);font-weight:400;margin:0 0 12px}
+.tw{overflow-x:auto;border:1px solid var(--line2);border-radius:12px}
+table.vars{width:100%;border-collapse:collapse;font-size:13.5px}
+table.vars th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);font-weight:400;padding:11px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+table.vars td{padding:10px 16px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--mut)}
+table.vars tr:last-child td{border-bottom:0}
+table.vars td:first-child{font-family:var(--mono);font-size:12.5px;color:var(--lime);white-space:nowrap}
+table.vars td:nth-child(2){font-family:var(--mono);font-size:12.5px;color:var(--tx)}
+
+.notes{margin-top:64px;padding-top:40px;border-top:1px solid var(--line)}
+.notes h2{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0 0 20px}
+.notes dl{display:grid;grid-template-columns:180px 1fr;gap:14px 24px;margin:0}
+.notes dt{font-family:var(--mono);font-size:12.5px;color:var(--lime)}
+.notes dd{margin:0;color:var(--mut);font-size:14.5px;line-height:1.6}
+@media (max-width:640px){
+  .page{padding:40px 18px 90px}
+  h1{font-size:30px}
+  .notes dl{grid-template-columns:1fr;gap:4px 0}
+  .notes dd{margin-bottom:14px}
+  .bar{margin-left:-18px;margin-right:-18px;padding-left:18px;padding-right:18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="page">
+
+<header class="doc-hd">
+  <div class="brandline">
+    <div class="brandmark"><svg class="" width="19" height="19" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-91,94.25-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32a8,8,0,0,1,0,12.5ZM176,168H136a8,8,0,0,1,0-16h40a8,8,0,0,1,0,16Z"/></svg></div>
+    <span class="brandname">deView</span>
+  </div>
+  <h1>Письма пользователю</h1>
+  <p class="lead">Шесть транзакционных писем на одном каркасе: шапка, категорийная плашка, тело, кнопка, таблица данных, подвал. Цвет плашки кодирует тип — лайм&nbsp;для транзакционных, коралл для безопасности, сиреневый для системы и промо. Ниже — как каждое письмо выглядит на живых данных и какие переменные в него подставляются.</p>
+  <div class="chips"><span>600px</span><span>тёмная тема</span><span>6 шаблонов</span><span>таблицы + инлайн-стили</span></div>
+</header>
+
+<div class="bar">
+  <button class="toggle" id="tgl" aria-pressed="false">Показать переменные</button>
+  <span class="hint">или наведи на значение — во всплывашке имя переменной</span>
+</div>
+
+<section class="howto">
+  <h2>Как это устроено</h2>
+  <p>В HTML-файлах вместо значений стоят плейсхолдеры <span class="icode">{{ variable }}</span> — без циклов и условий, только разметка. Тема письма, отправитель, прехедер и полный список переменных продублированы комментарием в самом верху каждого файла. На этой странице письма показаны на живых данных — кнопка сверху переключает их на имена переменных.</p>
+  <p>Иконки — PNG в папке <span class="icode">icons/</span>. В шаблонах они подключены через <span class="icode">{{ assets_base_url }}</span>: залей папку на CDN и подставь абсолютный URL без слэша на конце. Относительные пути в почте не работают.</p>
+  <div class="filelist">
+    <span>01-login-code.html</span>
+    <span>02-login-success.html</span>
+    <span>03-security-alert.html</span>
+    <span>04-maintenance.html</span>
+    <span>05-response-received.html</span>
+    <span>06-promo-pro.html</span>
+    <span>icons/ · 8 PNG</span>
+  </div>
+</section>
+
+<!-- ============ 01 ============ -->
+<section class="mailsec">
+  <div class="meta">
+    <span class="no lime">01 · подтверждение входа</span>
+    <span>Тема: Код подтверждения входа — <span class="v" data-var="code" title="{{ code }}">418302</span></span>
+    <span>От: deView &lt;no-reply@deview.dev&gt; · Прехедер: Код действует <span class="v" data-var="code_ttl_minutes" title="{{ code_ttl_minutes }}">10</span> минут</span>
+  </div>
+
+  <div class="mail">
+    <div class="mail-hd"><div class="mail-logo"><svg class="" width="15" height="15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-91,94.25-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32a8,8,0,0,1,0,12.5ZM176,168H136a8,8,0,0,1,0-16h40a8,8,0,0,1,0,16Z"/></svg></div><span class="mail-brand">deView</span><span class="mail-kicker">безопасность аккаунта</span></div>
+    <div class="mail-body">
+      <div class="pill lime"><svg class="" width="13" height="13" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm-34.32,69.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>подтверждение входа</div>
+      <h3>Подтвердите вход в аккаунт</h3>
+      <p class="txt">Кто-то запросил вход в deView с этим адресом. Введите код на странице входа — он действует <span class="v" data-var="code_ttl_minutes" title="{{ code_ttl_minutes }}">10</span> минут.</p>
+      <div class="code-box">
+        <div class="code-label">код подтверждения</div>
+        <div class="code-val"><span class="v" data-var="code" title="{{ code }}">418302</span></div>
+      </div>
+      <a href="#" class="btn primary mb18">Подтвердить вход</a>
+      <p class="fine">Если вы не пытались войти — просто проигнорируйте письмо и <a href="#">смените пароль</a>. Код никому не сообщайте: сотрудники deView его не спрашивают.</p>
+    </div>
+    <div class="mail-ft">deView · сервис технических интервью<br>Письмо отправлено автоматически, отвечать на него не нужно.<br><a href="#">Помощь</a> · <a href="#">Настройки уведомлений</a><br>© <span class="v" data-var="year" title="{{ year }}">2026</span> deView</div>
+  </div>
+
+  <div class="varsec">
+    <h4>переменные</h4>
+    <div class="tw"><table class="vars">
+      <tr><th>переменная</th><th>пример</th><th>что это</th></tr>
+      <tr><td>code</td><td>418302</td><td>Строка из 6 цифр без пробелов — разрядку даёт letter-spacing</td></tr>
+      <tr><td>code_ttl_minutes</td><td>10</td><td>Срок жизни кода, в минутах</td></tr>
+      <tr><td>confirm_url</td><td>—</td><td>Magic-link кнопки «Подтвердить вход»</td></tr>
+      <tr><td>change_password_url</td><td>—</td><td>Ссылка «смените пароль» в мелком тексте</td></tr>
+      <tr><td>help_url · notification_settings_url · year</td><td>—</td><td>Подвал</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="mailsec">
+  <div class="meta">
+    <span class="no lime">02 · успешный вход</span>
+    <span>Тема: Вы вошли в deView — <span class="v" data-var="device" title="{{ device }}">MacBook Pro</span>, <span class="v" data-var="location_city" title="{{ location_city }}">Москва</span></span>
+    <span>От: deView &lt;no-reply@deview.dev&gt; · Прехедер: Проверьте данные сессии</span>
+  </div>
+
+  <div class="mail">
+    <div class="mail-hd"><div class="mail-logo"><svg class="" width="15" height="15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-91,94.25-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32a8,8,0,0,1,0,12.5ZM176,168H136a8,8,0,0,1,0-16h40a8,8,0,0,1,0,16Z"/></svg></div><span class="mail-brand">deView</span><span class="mail-kicker">безопасность аккаунта</span></div>
+    <div class="mail-body">
+      <div class="pill lime"><svg class="" width="13" height="13" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M141.66,133.66l-40,40A8,8,0,0,1,88,168V136H24a8,8,0,0,1,0-16H88V88a8,8,0,0,1,13.66-5.66l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/></svg>вход выполнен</div>
+      <h3>Вы вошли в аккаунт</h3>
+      <p class="txt">Вход в deView выполнен успешно. Если это были вы — ничего делать не нужно.</p>
+      <div class="dl">
+        <div><b>аккаунт</b><span class="v" data-var="account_email" title="{{ account_email }}">alex@mail.ru</span></div>
+        <div><b>время</b><span class="v" data-var="login_time" title="{{ login_time }}">17 авг 2026, 14:32 МСК</span></div>
+        <div><b>устройство</b><span class="v" data-var="device" title="{{ device }}">MacBook Pro · macOS 15</span></div>
+        <div><b>браузер</b><span class="v" data-var="browser" title="{{ browser }}">Chrome 141</span></div>
+        <div><b>IP-адрес</b><span class="v" data-var="ip" title="{{ ip }}">31.173.84.12</span></div>
+        <div><b>местоположение</b><span class="v" data-var="location" title="{{ location }}">Москва, Россия</span></div>
+      </div>
+      <div class="btn-row mb18">
+        <a href="#" class="btn primary">Перейти в кабинет</a>
+        <a href="#" class="btn ghost">Это был не я</a>
+      </div>
+      <p class="fine">Не узнаёте вход? Нажмите «Это был не я» — мы завершим все сессии и попросим сменить пароль.</p>
+    </div>
+    <div class="mail-ft">deView · сервис технических интервью<br>Письмо о безопасности: приходит при каждом входе с нового устройства.<br><a href="#">Помощь</a> · <a href="#">Настройки уведомлений</a><br>© <span class="v" data-var="year" title="{{ year }}">2026</span> deView</div>
+  </div>
+
+  <div class="varsec">
+    <h4>переменные</h4>
+    <div class="tw"><table class="vars">
+      <tr><th>переменная</th><th>пример</th><th>что это</th></tr>
+      <tr><td>account_email</td><td>alex@mail.ru</td><td>Почта аккаунта</td></tr>
+      <tr><td>login_time</td><td>17 авг 2026, 14:32 МСК</td><td>Время входа, всегда с таймзоной</td></tr>
+      <tr><td>device</td><td>MacBook Pro · macOS 15</td><td>Устройство и ОС одной строкой</td></tr>
+      <tr><td>browser</td><td>Chrome 141</td><td>Браузер и версия</td></tr>
+      <tr><td>ip</td><td>31.173.84.12</td><td>IP сессии</td></tr>
+      <tr><td>location</td><td>Москва, Россия</td><td>Геолокация по IP</td></tr>
+      <tr><td>location_city</td><td>Москва</td><td>Только для темы письма</td></tr>
+      <tr><td>dashboard_url</td><td>—</td><td>Кнопка «Перейти в кабинет»</td></tr>
+      <tr><td>not_me_url</td><td>—</td><td>«Это был не я» — сброс всех сессий</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="mailsec">
+  <div class="meta">
+    <span class="no coral">03 · security</span>
+    <span>Тема: <span class="v" data-var="event_subject" title="{{ event_subject }}">Пароль изменён · Новый вход с неизвестного устройства</span></span>
+    <span>От: deView Security &lt;security@deview.dev&gt; · Прехедер: Если это были не вы, действуйте сейчас</span>
+  </div>
+
+  <div class="mail alarm">
+    <div class="mail-hd"><div class="mail-logo"><svg class="" width="15" height="15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-91,94.25-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32a8,8,0,0,1,0,12.5ZM176,168H136a8,8,0,0,1,0-16h40a8,8,0,0,1,0,16Z"/></svg></div><span class="mail-brand">deView</span><span class="mail-kicker coral">важное уведомление</span></div>
+    <div class="mail-body">
+      <div class="pill coral"><svg class="" width="13" height="13" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/></svg>security</div>
+      <h3><span class="v" data-var="event_title" title="{{ event_title }}">Пароль вашего аккаунта изменён</span></h3>
+      <p class="txt"><span class="v" data-var="event_lead" title="{{ event_lead }}">Пароль был изменён после входа с устройства, которое мы раньше не видели. Проверьте детали ниже.</span></p>
+      <div class="alert-dl">
+        <div><b>событие</b><span class="v" data-var="event_name" title="{{ event_name }}">смена пароля</span></div>
+        <div><b>время</b><span class="v" data-var="event_time" title="{{ event_time }}">17 авг 2026, 03:11 МСК</span></div>
+        <div><b>устройство</b><span class="v" data-var="event_device" title="{{ event_device }}">Windows 11 · Firefox 133</span></div>
+        <div><b>местоположение</b><span class="v hot" data-var="event_location" title="{{ event_location }}">Ереван, Армения</span></div>
+      </div>
+      <a href="#" class="btn danger mb10">Восстановить доступ</a>
+      <a href="#" class="btn ghost mb18">Завершить все сессии</a>
+      <p class="fine">Это сделали вы — письмо можно удалить. Тем же шаблоном приходят уведомления о новом входе, привязке GitHub и смене email.</p>
+    </div>
+    <div class="mail-ft">deView · сервис технических интервью<br>Письма о безопасности нельзя отключить — они защищают ваш аккаунт.<br><a href="#">Помощь</a> · <a href="#">Служба поддержки</a><br>© <span class="v" data-var="year" title="{{ year }}">2026</span> deView</div>
+  </div>
+
+  <div class="varsec">
+    <h4>переменные — один шаблон на все тревожные события</h4>
+    <div class="tw"><table class="vars">
+      <tr><th>переменная</th><th>пример</th><th>что это</th></tr>
+      <tr><td>event_subject</td><td>Пароль изменён · Новый вход…</td><td>Тема письма</td></tr>
+      <tr><td>event_title</td><td>Пароль вашего аккаунта изменён</td><td>Заголовок в теле</td></tr>
+      <tr><td>event_lead</td><td>Пароль был изменён после входа…</td><td>Абзац под заголовком</td></tr>
+      <tr><td>event_name</td><td>смена пароля</td><td>Тип события в таблице</td></tr>
+      <tr><td>event_time</td><td>17 авг 2026, 03:11 МСК</td><td>Когда произошло</td></tr>
+      <tr><td>event_device</td><td>Windows 11 · Firefox 133</td><td>С чего зашли</td></tr>
+      <tr><td>event_location</td><td>Ереван, Армения</td><td>Выводится коралловым — это акцент тревоги</td></tr>
+      <tr><td>restore_access_url</td><td>—</td><td>«Восстановить доступ»</td></tr>
+      <tr><td>terminate_sessions_url</td><td>—</td><td>«Завершить все сессии»</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="mailsec">
+  <div class="meta">
+    <span class="no violet">04 · system</span>
+    <span>Тема: Плановые работы <span class="v" data-var="maintenance_date" title="{{ maintenance_date }}">20 августа</span>, <span class="v" data-var="maintenance_window" title="{{ maintenance_window }}">02:00–04:00</span> МСК</span>
+    <span>От: deView &lt;no-reply@deview.dev&gt; · Прехедер: Сессии будут недоступны <span class="v" data-var="maintenance_duration" title="{{ maintenance_duration }}">2 часа</span></span>
+  </div>
+
+  <div class="mail">
+    <div class="mail-hd"><div class="mail-logo"><svg class="" width="15" height="15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-91,94.25-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32a8,8,0,0,1,0,12.5ZM176,168H136a8,8,0,0,1,0-16h40a8,8,0,0,1,0,16Z"/></svg></div><span class="mail-brand">deView</span><span class="mail-kicker">статус сервиса</span></div>
+    <div class="mail-body">
+      <div class="pill violet"><svg class="" width="13" height="13" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M232,96a72,72,0,0,1-100.94,66L79,222.22c-.12.14-.26.29-.39.42a32,32,0,0,1-45.26-45.26c.14-.13.28-.27.43-.39L94,124.94a72.07,72.07,0,0,1,83.54-98.78,8,8,0,0,1,3.93,13.19L144,80l5.66,26.35L176,112l40.65-37.52a8,8,0,0,1,13.19,3.93A72.6,72.6,0,0,1,232,96Z"/></svg>system</div>
+      <h3><span class="v" data-var="maintenance_title" title="{{ maintenance_title }}">Плановые работы в ночь на 20 августа</span></h3>
+      <p class="txt"><span class="v" data-var="maintenance_lead" title="{{ maintenance_lead }}">Обновляем сервер сессий. В это время нельзя будет создать комнату и подключиться к интервью, история и оценки останутся на месте.</span></p>
+      <div class="facts">
+        <div class="fact"><div class="k">окно</div><div class="val"><span class="v" data-var="maintenance_window" title="{{ maintenance_window }}">02:00–04:00</span></div></div>
+        <div class="fact"><div class="k">затронуто</div><div class="val"><span class="v" data-var="affected_services" title="{{ affected_services }}">комнаты, видео</span></div></div>
+      </div>
+      <div class="quote"><span class="v" data-var="maintenance_note" title="{{ maintenance_note }}">Сессии, назначенные на это окно, лучше перенести. Мы напомним об этом в Telegram-боте за час до начала работ.</span></div>
+      <a href="#" class="btn ghost">Открыть статус-страницу</a>
+    </div>
+    <div class="mail-ft">deView · сервис технических интервью<br>Технические уведомления приходят редко и только по делу.<br><a href="#">Настройки уведомлений</a> · <a href="#">Отписаться</a><br>© <span class="v" data-var="year" title="{{ year }}">2026</span> deView</div>
+  </div>
+
+  <div class="varsec">
+    <h4>переменные</h4>
+    <div class="tw"><table class="vars">
+      <tr><th>переменная</th><th>пример</th><th>что это</th></tr>
+      <tr><td>maintenance_title</td><td>Плановые работы в ночь на 20 августа</td><td>Заголовок</td></tr>
+      <tr><td>maintenance_lead</td><td>Обновляем сервер сессий…</td><td>Абзац-описание</td></tr>
+      <tr><td>maintenance_date</td><td>20 августа</td><td>Только для темы письма</td></tr>
+      <tr><td>maintenance_window</td><td>02:00–04:00</td><td>Окно работ</td></tr>
+      <tr><td>maintenance_duration</td><td>2 часа</td><td>Только для прехедера</td></tr>
+      <tr><td>affected_services</td><td>комнаты, видео</td><td>Что не будет работать</td></tr>
+      <tr><td>maintenance_note</td><td>Сессии лучше перенести…</td><td>Текст в цитате с сиреневой линией</td></tr>
+      <tr><td>status_url</td><td>—</td><td>Кнопка «Открыть статус-страницу»</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="mailsec">
+  <div class="meta">
+    <span class="no lime">05 · action</span>
+    <span>Тема: <span class="v" data-var="partner_full_name" title="{{ partner_full_name }}">Марк Гринёв</span> откликнулся на вашу карточку</span>
+    <span>От: deView &lt;no-reply@deview.dev&gt; · Прехедер: Сессия на двоих готова к запуску</span>
+  </div>
+
+  <div class="mail">
+    <div class="mail-hd"><div class="mail-logo"><svg class="" width="15" height="15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-91,94.25-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32a8,8,0,0,1,0,12.5ZM176,168H136a8,8,0,0,1,0-16h40a8,8,0,0,1,0,16Z"/></svg></div><span class="mail-brand">deView</span><span class="mail-kicker">активность</span></div>
+    <div class="mail-body">
+      <div class="pill lime"><svg class="" width="13" height="13" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,71.1a8,8,0,0,1-10.78-3.42,94.13,94.13,0,0,0-33.46-36.91,8,8,0,1,1,8.54-13.54,111.46,111.46,0,0,1,39.12,43.09A8,8,0,0,1,224,71.1ZM35.71,72a8,8,0,0,0,7.1-4.32A94.13,94.13,0,0,1,76.27,30.77a8,8,0,1,0-8.54-13.54A111.46,111.46,0,0,0,28.61,60.32,8,8,0,0,0,35.71,72Zm186.1,103.94A16,16,0,0,1,208,200H167.2a40,40,0,0,1-78.4,0H48a16,16,0,0,1-13.79-24.06C43.22,160.39,48,138.28,48,112a80,80,0,0,1,160,0C208,138.27,212.78,160.38,221.81,175.94ZM150.62,200H105.38a24,24,0,0,0,45.24,0Z"/></svg>action</div>
+      <h3><span class="v" data-var="action_title" title="{{ action_title }}">Марк откликнулся на вашу карточку</span></h3>
+      <p class="txt"><span class="v" data-var="action_lead" title="{{ action_lead }}">Он готов провести с вами интервью по алгоритмам. Подтвердите время — и комната создастся автоматически.</span></p>
+      <div class="person-card">
+        <div class="person">
+          <div class="avatar"><span class="v" data-var="partner_initials" title="{{ partner_initials }}">МГ</span></div>
+          <div>
+            <div class="person-name"><span class="v" data-var="partner_full_name" title="{{ partner_full_name }}">Марк Гринёв</span></div>
+            <div class="person-meta"><span class="v" data-var="partner_meta" title="{{ partner_meta }}">Senior Frontend · React, TypeScript · 48 интервью</span></div>
+          </div>
+        </div>
+        <div class="session">
+          <span><b>когда:</b> <span class="v" data-var="session_datetime" title="{{ session_datetime }}">18 авг, 19:00 МСК</span></span>
+          <span><b>формат:</b> <span class="v" data-var="session_format" title="{{ session_format }}">алгоритмы · 60 мин</span></span>
+        </div>
+      </div>
+      <div class="btn-row mb18">
+        <a href="#" class="btn primary">Подтвердить время</a>
+        <a href="#" class="btn ghost">Предложить другое</a>
+      </div>
+      <p class="fine">Этот же шаблон используется для оценки после интервью, приглашения в комнату и новых отзывов в истории.</p>
+    </div>
+    <div class="mail-ft">deView · сервис технических интервью<br>Вы получаете это письмо, потому что у вас активна карточка на витрине.<br><a href="#">Настройки уведомлений</a> · <a href="#">Отписаться</a><br>© <span class="v" data-var="year" title="{{ year }}">2026</span> deView</div>
+  </div>
+
+  <div class="varsec">
+    <h4>переменные</h4>
+    <div class="tw"><table class="vars">
+      <tr><th>переменная</th><th>пример</th><th>что это</th></tr>
+      <tr><td>action_title</td><td>Марк откликнулся на вашу карточку</td><td>Заголовок</td></tr>
+      <tr><td>action_lead</td><td>Он готов провести интервью…</td><td>Абзац-описание</td></tr>
+      <tr><td>partner_full_name</td><td>Марк Гринёв</td><td>Имя собеседника</td></tr>
+      <tr><td>partner_initials</td><td>МГ</td><td>Ровно 2 буквы — аватар-заглушка</td></tr>
+      <tr><td>partner_meta</td><td>Senior Frontend · React… · 48 интервью</td><td>Грейд, стек, счётчик — одной строкой</td></tr>
+      <tr><td>partner_avatar_url</td><td>—</td><td>Если есть фото: в файле лежит закомментированный &lt;img&gt; на замену кружку</td></tr>
+      <tr><td>session_datetime</td><td>18 авг, 19:00 МСК</td><td>Предложенное время</td></tr>
+      <tr><td>session_format</td><td>алгоритмы · 60 мин</td><td>Тип и длительность</td></tr>
+      <tr><td>confirm_url · reschedule_url</td><td>—</td><td>Две кнопки</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="mailsec">
+  <div class="meta">
+    <span class="no violet">06 · promo</span>
+    <span>Тема: −<span class="v" data-var="discount_percent" title="{{ discount_percent }}">40</span>% на deView Pro до <span class="v" data-var="offer_deadline_short" title="{{ offer_deadline_short }}">31 августа</span></span>
+    <span>От: deView &lt;hello@deview.dev&gt; · Прехедер: Неограниченные подсказки ИИ и запись сессий</span>
+  </div>
+
+  <div class="mail">
+    <div class="mail-hd"><div class="mail-logo"><svg class="" width="15" height="15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-91,94.25-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32a8,8,0,0,1,0,12.5ZM176,168H136a8,8,0,0,1,0-16h40a8,8,0,0,1,0,16Z"/></svg></div><span class="mail-brand">deView</span><span class="mail-kicker">предложение</span></div>
+    <div class="mail-body">
+      <div class="pill violet"><svg class="" width="13" height="13" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z"/></svg>promo</div>
+      <h3><span class="v" data-var="promo_title" title="{{ promo_title }}">Pro на полгода со скидкой 40%</span></h3>
+      <p class="txt">Вы провели <span class="v" data-var="interviews_done" title="{{ interviews_done }}">12</span> интервью на бесплатном тарифе. В Pro — неограниченные подсказки ИИ, запись сессий и приватные комнаты.</p>
+      <div class="person-card">
+        <div class="price-row">
+          <span class="price-new"><span class="v" data-var="price_new" title="{{ price_new }}">590 ₽</span></span>
+          <span class="price-old"><span class="v" data-var="price_old" title="{{ price_old }}">990 ₽</span></span>
+          <span class="price-per"><span class="v" data-var="price_period" title="{{ price_period }}">/ месяц</span></span>
+        </div>
+        <div class="features">
+          <span><svg class="" width="16" height="16" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg><span class="v" data-var="feature_1" title="{{ feature_1 }}">Подсказки ИИ без лимита</span></span>
+          <span><svg class="" width="16" height="16" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg><span class="v" data-var="feature_2" title="{{ feature_2 }}">Запись и расшифровка интервью</span></span>
+          <span><svg class="" width="16" height="16" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg><span class="v" data-var="feature_3" title="{{ feature_3 }}">Приватные комнаты для найма</span></span>
+        </div>
+      </div>
+      <a href="#" class="btn primary" style="margin-bottom:16px">Перейти на Pro</a>
+      <p class="center-note">предложение действует до <span class="v" data-var="offer_deadline" title="{{ offer_deadline }}">31 августа 2026</span></p>
+    </div>
+    <div class="mail-ft">deView · сервис технических интервью<br>Рекламная рассылка. Вы подписались при регистрации.<br><a href="#">Отписаться от промо</a> · <a href="#">Настройки уведомлений</a><br>© <span class="v" data-var="year" title="{{ year }}">2026</span> deView</div>
+  </div>
+
+  <div class="varsec">
+    <h4>переменные</h4>
+    <div class="tw"><table class="vars">
+      <tr><th>переменная</th><th>пример</th><th>что это</th></tr>
+      <tr><td>promo_title</td><td>Pro на полгода со скидкой 40%</td><td>Заголовок</td></tr>
+      <tr><td>interviews_done</td><td>12</td><td>Сколько интервью провёл на бесплатном</td></tr>
+      <tr><td>discount_percent</td><td>40</td><td>Только для темы письма</td></tr>
+      <tr><td>price_new · price_old</td><td>590 ₽ · 990 ₽</td><td>Новая и зачёркнутая цены</td></tr>
+      <tr><td>price_period</td><td>/ месяц</td><td>Период списания</td></tr>
+      <tr><td>feature_1…3</td><td>Подсказки ИИ без лимита</td><td>Три пункта списка</td></tr>
+      <tr><td>offer_deadline</td><td>31 августа 2026</td><td>Дедлайн под кнопкой</td></tr>
+      <tr><td>offer_deadline_short</td><td>31 августа</td><td>Только для темы</td></tr>
+      <tr><td>upgrade_url</td><td>—</td><td>Кнопка «Перейти на Pro»</td></tr>
+      <tr><td>unsubscribe_promo_url</td><td>—</td><td>Обязательная отписка</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<section class="notes">
+  <h2>Что учесть при отправке</h2>
+  <dl>
+    <dt>вёрстка</dt><dd>Таблицы, инлайн-стили, ширина 600px, <span class="icode">role="presentation"</span>. Ни flex, ни grid, ни SVG внутри писем — всё как надо для Outlook. Единственная заметная деградация в старом Outlook: пропадут скругления углов.</dd>
+    <dt>иконки</dt><dd>Тот же набор, что в прототипе — Phosphor Fill, MIT. Перенесены как PNG&nbsp;@3x с альфой, лежат в <span class="icode">icons/</span>. Веб-шрифт иконок в почте не работает, инлайновый <span class="icode">&lt;svg&gt;</span> Gmail вырезает — поэтому картинки. У каждой есть alt, так что при отключённых картинках письмо остаётся читаемым.</dd>
+    <dt>шрифты</dt><dd>Space Grotesk и JetBrains Mono подключены через Google Fonts: подхватятся в Apple Mail и на iOS, везде остальном отработает системный фолбэк. Выглядит нормально в обоих случаях.</dd>
+    <dt>адаптив</dt><dd>Медиазапрос на 620px: карточка на всю ширину, отступы 18px, кнопки в ряд складываются в столбик, двухколоночные таблицы данных — в строки. Gmail медиазапросы поддерживает.</dd>
+    <dt>прехедер</dt><dd>Скрытый div в начале body — это первая строка в списке писем. Забит невидимыми символами, чтобы клиент не подтянул туда начало текста.</dd>
+    <dt>заголовки</dt><dd>Для промо обязателен <span class="icode">List-Unsubscribe</span> и <span class="icode">List-Unsubscribe-Post</span>. Письма 01–03 отписке не подлежат — это безопасность; слать их лучше с транзакционного домена, отдельно от промо.</dd>
+    <dt>text/plain</dt><dd>Текстовой альтернативы нет. Для доставляемости стоит собрать хотя бы для 01 и 03 — там она в пару строк.</dd>
+  </dl>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var b=document.body,t=document.getElementById('tgl');
+  t.addEventListener('click',function(){
+    var on=b.classList.toggle('show-vars');
+    t.setAttribute('aria-pressed',on?'true':'false');
+    t.textContent=on?'Показать данные':'Показать переменные';
+  });
+})();
+</script>

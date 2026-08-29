@@ -1,5 +1,6 @@
-import { Body, Get, Param, Patch } from '@nestjs/common';
+import { Body, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { ApiBaseController, GetUserId } from '@shared/decorators';
+import { BearerAuthGuard } from '@shared/guards';
 
 import { UpdateProfileDto } from '../../dtos';
 import { UserFacade } from '../../user.facade';
@@ -10,6 +11,7 @@ export class UserController {
     constructor(private readonly facade: UserFacade) {}
 
     @Get('me')
+    @UseGuards(BearerAuthGuard)
     @GetProfileSwagger()
     async getProfile(@GetUserId() id: string) {
         return this.facade.getProfile(id);
@@ -22,6 +24,7 @@ export class UserController {
     }
 
     @Patch('me')
+    @UseGuards(BearerAuthGuard)
     @PatchProfileSwagger()
     async updateProfile(@Body() dto: UpdateProfileDto, @GetUserId() id: string) {
         return this.facade.updateProfile(id, dto);

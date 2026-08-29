@@ -1,3 +1,4 @@
+import { CreateUserUseCase } from './create-user.use-case';
 import { FindByEmailQuery } from './find-by-email.query';
 import { FindByIdQuery } from './find-by-id.query';
 import { FindByIdsQuery } from './find-by-ids.query';
@@ -9,6 +10,7 @@ import { UpdateProfileUseCase } from './update-profile.use-case';
 
 export * from './update-notifications.use-case';
 export * from './update-profile.use-case';
+export * from './create-user.use-case';
 export * from './find-by-email.query';
 export * from './find-by-id.query';
 export * from './find-by-username.query';
@@ -16,7 +18,7 @@ export * from './find-profile.query';
 export * from './find-public-profile.query';
 export * from './find-by-ids.query';
 
-export const UserUseCases = [UpdateNotificationsUseCase, UpdateProfileUseCase];
+export const UserUseCases = [UpdateNotificationsUseCase, UpdateProfileUseCase, CreateUserUseCase];
 
 export const UserQueries = [
     FindProfileQuery,
@@ -28,6 +30,7 @@ export const UserQueries = [
 ];
 
 export const USER_EXTERNAL_USE_CASES = [
+    CreateUserUseCase,
     FindByEmailQuery,
     FindByIdQuery,
     FindByUsernameQuery,

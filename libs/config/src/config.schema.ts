@@ -1,6 +1,13 @@
 import { z } from 'zod/v4';
 
+import { jwtSecretValidation } from './helpers/jwt-secren-validation';
+
 const domainRegex = /^[a-z0-9.-]+\.[a-z]{2,}$/;
+
+const timeStringSchema = z.string().regex(/^[0-9]+[smhdw]$/, {
+    message:
+        'Неверный формат времени. Используйте суффиксы: s, m, h, d, w (например: 15m, 24h, 30d)',
+});
 
 export const ConfigSchema = z.object({
     PORT: z.coerce.number().int({ error: 'Порт (PORT) должен быть числом' }).default(3000),
@@ -108,6 +115,32 @@ export const ConfigSchema = z.object({
             error: "S3_ENDPOINT обязателен. Пример: 'http://localhost:9000'",
         })
         .url('S3_ENDPOINT должен быть валидным URL-адресом'),
+
+    /* JWT */
+    JWT_ISSUER: z
+        .string({
+            error: 'Параметр JWT_ISSUER обязателен для проверки токенов',
+        })
+        .min(1, 'JWT_ISSUER не может быть пустым'),
+    JWT_AUDIENCE: z
+        .string({
+            error: 'Параметр JWT_AUDIENCE обязателен для проверки токенов',
+        })
+        .min(1, 'JWT_AUDIENCE не может быть пустым'),
+    JWT_ACCESS_SECRET: z
+        .string({ error: 'Ключ JWT_ACCESS_SECRET обязателен для безопасности' })
+        .refine(jwtSecretValidation, {
+            message:
+                'JWT_ACCESS_SECRET должен быть не менее 32 символов ИЛИ содержать минимум 5 слов через дефис',
+        }),
+    JWT_REFRESH_SECRET: z
+        .string({ error: 'Ключ JWT_REFRESH_SECRET обязателен для безопасности' })
+        .refine(jwtSecretValidation, {
+            message:
+                'JWT_REFRESH_SECRET должен быть не менее 32 символов ИЛИ содержать минимум 5 слов через дефис',
+        }),
+    JWT_ACCESS_EXPIRES_IN: timeStringSchema.default('15m'),
+    JWT_REFRESH_EXPIRES_IN: timeStringSchema.default('30d'),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;

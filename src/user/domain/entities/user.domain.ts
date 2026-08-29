@@ -118,10 +118,10 @@ export class UserEntity {
 
     public toDetailsJson() {
         return {
-            ...this.toPublicJson(),
             email: this.email,
-            isProfileComplete: this.isProfileComplete,
+            ...this.toPublicJson(),
             updatedAt: this.updatedAt,
+            isProfileComplete: this.isProfileComplete,
         };
     }
 
