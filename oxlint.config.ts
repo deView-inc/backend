@@ -33,7 +33,12 @@ export default defineConfig({
                 'sort-imports': 'off',
                 'one-var': 'off',
                 'sort-keys': 'off',
+                'new-cap': 'off',
                 'max-statements': 'off',
+                'parameter-properties': 'off',
+                'method-signature-style': 'off',
+                'consistent-type-imports': 'off',
+                'throw-new-error': 'off',
 
                 'constructor-super': 'off',
                 'getter-return': 'off',
