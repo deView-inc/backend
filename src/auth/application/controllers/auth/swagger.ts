@@ -45,8 +45,7 @@ export const PostLoginSwagger = () =>
     applyDecorators(
         ApiOperation({
             summary: 'Вход в систему',
-            description:
-                'Возвращает Access/Refresh токены. Если у пользователя включена 2FA, вернет временный токен.',
+            description: 'Отправляет код авторизации на почту',
         }),
         ApiBody({ type: SignInDto.Output }),
         ApiResponse({
@@ -55,7 +54,7 @@ export const PostLoginSwagger = () =>
             type: SignResponse.Output,
         }),
         ApiBadRequest('Неверный формат email'),
-        ApiUnauthorized('Неверный email или пароль'),
+        ApiUnauthorized('Неверный email'),
 
         SetMetadata(ZOD_RESPONSE_TOKEN, ActionResponse),
     );

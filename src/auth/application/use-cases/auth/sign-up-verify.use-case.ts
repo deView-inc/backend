@@ -51,7 +51,7 @@ export class SignUpVerifyUseCase {
             );
         }
 
-        const isValid = this.totpService.verifyCode(
+        const isValid = await this.totpService.verifyCode(
             dto.code,
             userData.otp.token,
             userData.otp.secret,
