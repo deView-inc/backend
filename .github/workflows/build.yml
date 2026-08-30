@@ -11,6 +11,13 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 
+permissions:
+    actions: read
+    contents: read
+    security-events: write
+    packages: write
+    pull-requests: write
+
 jobs:
     security:
         uses: deView-inc/.github/.github/workflows/codeql.yml@master

@@ -7,16 +7,16 @@ import { BaseException } from '@shared/error';
 import { UserErrorCodes, UserErrorMessages } from '../../domain/errors';
 
 @Injectable()
-export class RegisterUserUseCase {
+export class CreateUserUseCase {
     constructor(
         @Inject('IUserRepository')
         private readonly repository: IUserRepository,
     ) {}
 
     async execute(dto: CreateUserDto) {
-        const existingUser = await this.repository.findByEmail(dto.email.toLowerCase());
+        const existed = await this.repository.findByEmail(dto.email);
 
-        if (existingUser) {
+        if (existed) {
             throw new BaseException(
                 {
                     code: UserErrorCodes.ALREADY_EXISTS,
@@ -28,9 +28,7 @@ export class RegisterUserUseCase {
         }
 
         try {
-            const entity = await this.repository.create(UserEntity.toCreateModel(dto));
-
-            return entity.toDetailsJson();
+            return await this.repository.create(UserEntity.toCreateModel(dto));
         } catch (error) {
             if (error instanceof BaseException) {
                 throw error;

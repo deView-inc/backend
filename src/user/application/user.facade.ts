@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserDto, UpdateNotificationsDto, UpdateProfileDto } from './dtos';
+import { UpdateNotificationsDto, UpdateProfileDto } from './dtos';
 import {
     FindProfileQuery,
     FindPublicProfileQuery,
-    RegisterUserUseCase,
     UpdateNotificationsUseCase,
     UpdateProfileUseCase,
 } from './use-cases';
@@ -16,7 +15,6 @@ export class UserFacade {
         private readonly findPublicProfileQuery: FindPublicProfileQuery,
         private readonly updateNotificationsUC: UpdateNotificationsUseCase,
         private readonly updateProfileUC: UpdateProfileUseCase,
-        private readonly registration: RegisterUserUseCase,
     ) {}
 
     public async getProfile(userId: string) {
@@ -33,9 +31,5 @@ export class UserFacade {
 
     public async updateNotifications(userId: string, dto: UpdateNotificationsDto) {
         return this.updateNotificationsUC.execute(userId, dto);
-    }
-
-    public async register(dto: CreateUserDto) {
-        return this.registration.execute(dto);
     }
 }

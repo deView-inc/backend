@@ -5,7 +5,7 @@ import { UpdateNotificationsDto } from '../../dtos';
 import { UserFacade } from '../../user.facade';
 import { PatchMeNotificationsSwagger } from './swagger';
 
-@ApiBaseController('users/me', 'Account Settings')
+@ApiBaseController('users/me', 'Account Settings', true)
 export class UserSettingsController {
     constructor(private readonly facade: UserFacade) {}
 

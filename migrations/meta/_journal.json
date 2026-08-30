@@ -15,6 +15,13 @@
             "when": 1786976582762,
             "tag": "0001_lucky_imperial_guard",
             "breakpoints": false
+        },
+        {
+            "idx": 2,
+            "version": "7",
+            "when": 1788028634127,
+            "tag": "0002_large_abomination",
+            "breakpoints": false
         }
     ]
 }

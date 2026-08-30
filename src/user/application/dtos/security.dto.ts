@@ -5,7 +5,10 @@ import { z } from 'zod/v4';
 export const SecuritySchema = z
     .object({
         is2faEnabled: z.boolean().describe('Статус двухфакторной аутентификации'),
-        recoveryEmail: z.email().describe('Дополнительная почта для восстановления доступа'),
+        recoveryEmail: z
+            .email()
+            .toLowerCase()
+            .describe('Дополнительная почта для восстановления доступа'),
     })
     .describe('Данные безопасности аккаунта');
 export class SecurityDto extends createZodDto(SecuritySchema) {}

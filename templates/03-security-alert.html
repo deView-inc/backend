@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<title>deView — Пароль вашего аккаунта изменён</title>
+<!--
+  ============================================================
+  03 · SECURITY (тревожное уведомление)
+  Тема:      {{ event_subject }}   напр.: Пароль изменён · Новый вход с неизвестного устройства
+  От:        deView Security <security@deview.dev>
+  Прехедер:  Если это были не вы, действуйте сейчас
+
+  Этим же шаблоном шлём: новый вход, привязка GitHub, смена email —
+  меняются только {{ event_title }}, {{ event_lead }} и строки таблицы.
+
+    {{ assets_base_url }}          — АБСОЛЮТНЫЙ URL папки с иконками, без слэша на конце:
+                                    напр. https://cdn.deview.dev/mail — файлы лежат в ./icons
+
+  ПЕРЕМЕННЫЕ:
+    {{ event_subject }}             — тема письма
+    {{ event_title }}               — Пароль вашего аккаунта изменён
+    {{ event_lead }}                — абзац-описание под заголовком
+    {{ event_name }}                — смена пароля
+    {{ event_time }}                — 17 авг 2026, 03:11 МСК
+    {{ event_device }}              — Windows 11 · Firefox 133
+    {{ event_location }}            — Ереван, Армения   (выделен коралловым)
+    {{ restore_access_url }}        — кнопка «Восстановить доступ»
+    {{ terminate_sessions_url }}    — кнопка «Завершить все сессии»
+    {{ help_url }}, {{ support_url }}, {{ year }}
+  ============================================================
+-->
+<!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+  table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
+  img{border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic}
+  a{color:#B9F24C}
+  @media only screen and (max-width:620px){
+    .wrap{width:100%!important}
+    .px{padding-left:18px!important;padding-right:18px!important}
+    .row-l,.row-r{display:block!important;width:100%!important;text-align:left!important}
+    .row-r{padding-top:2px!important}
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background:#07080A;">
+
+<div style="display:none;font-size:1px;color:#07080A;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Если это были не вы, действуйте сейчас&#8199;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#07080A;">
+<tr><td align="center" style="padding:32px 12px 40px;">
+
+<table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background:#0C0E11;border:1px solid #2a1b19;border-radius:14px;overflow:hidden;">
+
+  <!-- ШАПКА -->
+  <tr><td class="px" style="padding:18px 24px;background:#101215;border-bottom:1px solid #17191d;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+      <td width="26" valign="middle" style="width:26px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td width="26" height="26" align="center" valign="middle" bgcolor="#B9F24C" style="width:26px;height:26px;line-height:26px;background:#B9F24C;border-radius:8px;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:13px;font-weight:700;color:#0A0C0E;"><img src="{{ assets_base_url }}/terminal-window.png" width="15" height="15" alt="&gt;_" style="display:block;margin:0 auto;border:0;"></td>
+        </tr></table>
+      </td>
+      <td valign="middle" style="padding-left:10px;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:15px;font-weight:700;letter-spacing:-.01em;color:#E7EAED;white-space:nowrap;">deView</td>
+      <td valign="middle" align="right" style="font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#FF6A5A;">важное уведомление</td>
+    </tr></table>
+  </td></tr>
+
+  <!-- ТЕЛО -->
+  <tr><td class="px" style="padding:30px 24px 32px;">
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;"><tr>
+      <td style="background:#241718;border:1px solid #552A27;border-radius:100px;padding:5px 12px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td valign="middle" style="padding-right:7px;font-size:0;line-height:0;"><img src="{{ assets_base_url }}/warning.png" width="13" height="13" alt="" style="display:block;border:0;"></td>
+          <td valign="middle" style="font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:11px;line-height:1.3;color:#FF6A5A;">security</td>
+        </tr></table>
+      </td>
+    </tr></table>
+
+    <h1 style="margin:0 0 12px;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:23px;font-weight:600;letter-spacing:-.02em;line-height:1.25;color:#E7EAED;">{{ event_title }}</h1>
+
+    <p style="margin:0 0 22px;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:15px;line-height:1.6;color:#98A0A8;">{{ event_lead }}</p>
+
+    <!-- тревожная таблица события -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#181315;border:1px solid #2a1b19;border-radius:12px;margin-bottom:22px;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:12.5px;">
+      <tr>
+        <td class="row-l" style="padding:14px 16px 5px;color:#626A73;">событие</td>
+        <td class="row-r" align="right" style="padding:14px 16px 5px;color:#E7EAED;">{{ event_name }}</td>
+      </tr>
+      <tr>
+        <td class="row-l" style="padding:5px 16px;color:#626A73;">время</td>
+        <td class="row-r" align="right" style="padding:5px 16px;color:#E7EAED;">{{ event_time }}</td>
+      </tr>
+      <tr>
+        <td class="row-l" style="padding:5px 16px;color:#626A73;">устройство</td>
+        <td class="row-r" align="right" style="padding:5px 16px;color:#E7EAED;">{{ event_device }}</td>
+      </tr>
+      <tr>
+        <td class="row-l" style="padding:5px 16px 14px;color:#626A73;">местоположение</td>
+        <td class="row-r" align="right" style="padding:5px 16px 14px;color:#FF6A5A;">{{ event_location }}</td>
+      </tr>
+    </table>
+
+    <!-- основная кнопка -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;"><tr>
+      <td align="center" bgcolor="#FF6A5A" style="background:#FF6A5A;border-radius:11px;padding:14px 20px;">
+        <a href="{{ restore_access_url }}" style="display:block;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:15px;font-weight:600;line-height:1.2;color:#1a0806;text-decoration:none;">Восстановить доступ</a>
+      </td>
+    </tr></table>
+
+    <!-- вторичная кнопка -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;"><tr>
+      <td align="center" bgcolor="#14171B" style="background:#14171B;border:1px solid #2a2f37;border-radius:11px;padding:12px 20px;">
+        <a href="{{ terminate_sessions_url }}" style="display:block;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:14.5px;font-weight:500;line-height:1.2;color:#E7EAED;text-decoration:none;">Завершить все сессии</a>
+      </td>
+    </tr></table>
+
+    <p style="margin:0;font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:13.5px;line-height:1.6;color:#626A73;">Это сделали вы — письмо можно удалить. Тем же шаблоном приходят уведомления о новом входе, привязке GitHub и смене email.</p>
+
+  </td></tr>
+
+  <!-- ПОДВАЛ -->
+  <tr><td class="px" style="padding:18px 24px 22px;background:#0A0B0D;border-top:1px solid #17191d;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;font-size:11px;line-height:1.75;color:#4d555e;">
+    deView · сервис технических интервью<br>
+    Письма о безопасности нельзя отключить — они защищают ваш аккаунт.<br>
+    <a href="{{ help_url }}" style="color:#626A73;text-decoration:underline;">Помощь</a> &middot; <a href="{{ support_url }}" style="color:#626A73;text-decoration:underline;">Служба поддержки</a><br>
+    &copy; {{ year }} deView
+  </td></tr>
+
+</table>
+
+</td></tr></table>
+</body>
+</html>
