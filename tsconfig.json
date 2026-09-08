@@ -11,6 +11,7 @@
         "esModuleInterop": true,
         "sourceMap": true,
         "outDir": "./dist",
+        "rootDir": "./",
         "incremental": true,
         "skipLibCheck": true,
         "types": ["node", "vitest/globals"],
@@ -31,6 +32,7 @@
         "noImplicitOverride": true,
         "exactOptionalPropertyTypes": false,
         "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "bundler",
         "lib": ["ES2022"],
         "paths": {
             "@libs/bootstrap": ["./libs/bootstrap/src"],
@@ -39,12 +41,6 @@
             "@libs/config/*": ["./libs/config/src/*"],
             "@libs/database": ["./libs/database/src"],
             "@libs/database/*": ["./libs/database/src/*"],
-            "@libs/health": ["./libs/health/src"],
-            "@libs/health/*": ["./libs/health/src/*"],
-            "@libs/metrics": ["./libs/metrics/src"],
-            "@libs/metrics/*": ["./libs/metrics/src/*"],
-            "@libs/s3": ["./libs/s3/src"],
-            "@libs/s3/*": ["./libs/s3/src/*"],
             "@shared/*": ["./src/shared/*"],
             "@core/*": ["./src/*"]
         }
