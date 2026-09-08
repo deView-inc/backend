@@ -49,6 +49,7 @@ export class UpdateProfileUseCase {
                     message: UserErrorMessages[UserErrorCodes.UPDATE_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

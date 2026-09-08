@@ -60,6 +60,7 @@ export class SignOutUseCase {
                     message: AuthErrorMessages[AuthErrorCodes.SIGNOUT_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

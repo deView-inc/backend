@@ -198,6 +198,7 @@ export class ExchangeUseCase {
                     message: OAuthErrorMessages[OAuthErrorCodes.SESSION_CREATION_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

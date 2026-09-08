@@ -12,8 +12,8 @@ export interface IErrorOptions {
 }
 
 export class BaseException extends HttpException {
-    constructor(options: IErrorOptions, status: HttpStatus) {
-        super(options, status);
+    constructor(options: IErrorOptions, status: HttpStatus, cause?: unknown) {
+        super(options, status, { cause });
     }
 }
 

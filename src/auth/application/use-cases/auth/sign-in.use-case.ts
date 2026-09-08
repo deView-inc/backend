@@ -95,6 +95,7 @@ export class SignInUseCase {
                     message: AuthErrorMessages[AuthErrorCodes.SIGNUP_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

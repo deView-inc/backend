@@ -127,6 +127,7 @@ export class SignInVerifyUseCase {
                     message: AuthErrorMessages[AuthErrorCodes.SIGNIN_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

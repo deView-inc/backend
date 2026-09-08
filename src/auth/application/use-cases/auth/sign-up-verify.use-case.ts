@@ -103,6 +103,7 @@ export class SignUpVerifyUseCase {
                     message: AuthErrorMessages[AuthErrorCodes.SIGNUP_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

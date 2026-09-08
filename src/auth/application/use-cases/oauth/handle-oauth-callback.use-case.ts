@@ -1,7 +1,7 @@
 import { OAuthErrorCodes, OAuthErrorMessages } from '@core/auth/domain/errors';
 import { assertOAuthProvider, OAuthProvider } from '@core/auth/infrastructure/constants';
 import type { DeviceMetadata } from '@core/auth/infrastructure/utils';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { BaseException, IErrorOptions, isBaseException } from '@shared/error';
 
@@ -11,6 +11,8 @@ import { ProcessOAuthSignUseCase } from './process-oauth-sign.use-case';
 
 @Injectable()
 export class HandleOAuthCallbackUseCase {
+    private readonly logger = new Logger(HandleOAuthCallbackUseCase.name);
+
     constructor(
         private readonly cfg: ConfigService,
         private readonly processSignIn: ProcessOAuthSignUseCase,
@@ -34,6 +36,7 @@ export class HandleOAuthCallbackUseCase {
 
             return `${this.getFrontendUrl()}${path}?${result.query.toString()}`;
         } catch (error) {
+            this.logger.error(error);
             return `${this.getFrontendUrl()}/oauth?${this.buildErrorQuery(error).toString()}`;
         }
     }
