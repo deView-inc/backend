@@ -6,8 +6,9 @@ import z from 'zod';
 export const PreferencesSchema = z.object({
     timezone: z
         .string()
+        .max(50)
         .describe('Временная зона пользователя (например: "Europe/Moscow", "UTC+3")'),
-    language: z.string().describe('Язык интерфейса (ISO 639-1: "ru", "en", "de" и т.д.)'),
+    language: z.string().max(5).describe('Язык интерфейса (ISO 639-1: "ru", "en", "de" и т.д.)'),
     theme: z
         .enum(USER_THEMES)
         .describe('Тема оформления: light - светлая, dark - темная, system - как в системе'),
