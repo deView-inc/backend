@@ -83,10 +83,6 @@ export class UserEntity {
         return this.deletedAt !== null;
     }
 
-    get userPronouns(): UserPronouns | string | null {
-        return this.pronouns === 'other' ? this.pronounsCustom : this.pronouns;
-    }
-
     get isProfileComplete(): boolean {
         return Boolean(
             this.firstName &&
@@ -113,7 +109,8 @@ export class UserEntity {
             grade: this.grade,
             stack: this.stack,
             gender: this.gender,
-            pronouns: this.userPronouns,
+            pronouns: this.pronouns,
+            pronounsCustom: this.pronounsCustom,
             createdAt: this.createdAt,
         };
     }

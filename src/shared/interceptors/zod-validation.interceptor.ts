@@ -47,11 +47,22 @@ export class ZodValidationInterceptor implements NestInterceptor<unknown, unknow
                 const res = schema.safeParse(data);
 
                 if (!res.success) {
+                    const enrichedIssues = res.error.issues.map((issue) => {
+                        const receivedValue = issue.path.reduce((acc: any, key) => {
+                            return acc !== null && acc !== undefined ? acc[key] : undefined;
+                        }, data);
+
+                        return {
+                            ...issue,
+                            received_value: receivedValue,
+                        };
+                    });
+
                     throw new BaseException(
                         {
                             code: 'RESPONSE_VALIDATION_FAILED',
                             message: 'Данные ответа не соответствуют ожидаемому формату',
-                            details: res.error.issues,
+                            details: enrichedIssues,
                         },
                         HttpStatus.INTERNAL_SERVER_ERROR,
                     );
