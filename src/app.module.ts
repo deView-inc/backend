@@ -2,6 +2,7 @@ import { AuthModule } from '@core/auth/auth.module';
 import { UserModule } from '@core/user';
 import { ConfigModule } from '@libs/config';
 import { DatabaseModule } from '@libs/database';
+import { HttpModule } from '@nestjs/axios';
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -37,6 +38,7 @@ import * as schema from './shared/entities';
                 },
             }),
         }),
+        HttpModule.register({ global: true }),
         CacheModule,
         MailModule,
         UserModule,
