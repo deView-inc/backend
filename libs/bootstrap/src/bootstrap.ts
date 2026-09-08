@@ -71,8 +71,8 @@ export async function bootstrapApp(options: BootstrapOptions) {
                 return this.raw.setHeader(key, value);
             };
 
-            reply.end = function end() {
-                this.raw.end();
+            reply.end = function end(body?: unknown) {
+                return this.send(body ?? '');
             };
 
             request.res = reply;

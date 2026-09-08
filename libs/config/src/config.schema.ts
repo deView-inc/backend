@@ -18,6 +18,8 @@ export const ConfigSchema = z.object({
         })
         .default('development'),
 
+    FRONTEND_URL: z.url('Переменная должна быть валидным URL').toLowerCase(),
+
     DOMAIN: z
         .string()
         .toLowerCase()
@@ -141,6 +143,36 @@ export const ConfigSchema = z.object({
         }),
     JWT_ACCESS_EXPIRES_IN: timeStringSchema.default('15m'),
     JWT_REFRESH_EXPIRES_IN: timeStringSchema.default('30d'),
+
+    /* OAUTH */
+    GOOGLE_CLIENT_ID: z
+        .string({
+            error: 'Идентификатор клиента Google (GOOGLE_CLIENT_ID) отсутствует в переменных окружения',
+        })
+        .min(1, 'GOOGLE_CLIENT_ID не может быть пустым. Получите его в Google Cloud Console'),
+
+    GOOGLE_CLIENT_SECRET: z
+        .string({
+            error: 'Секретный ключ Google (GOOGLE_CLIENT_SECRET) отсутствует в переменных окружения',
+        })
+        .min(1, 'GOOGLE_CLIENT_SECRET не может быть пустым. Защитите им свои OAuth-запросы'),
+
+    GITHUB_CLIENT_ID: z
+        .string({
+            error: 'Идентификатор клиента GitHub (GITHUB_CLIENT_ID) отсутствует в переменных окружения',
+        })
+        .min(
+            1,
+            'GITHUB_CLIENT_ID не может быть пустым. Получите его в настройках Developer Settings на GitHub',
+        )
+        .optional(),
+
+    GITHUB_CLIENT_SECRET: z
+        .string({
+            error: 'Секретный ключ GitHub (GITHUB_CLIENT_SECRET) отсутствует в переменных окружения',
+        })
+        .min(1, 'GITHUB_CLIENT_SECRET не может быть пустым')
+        .optional(),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;

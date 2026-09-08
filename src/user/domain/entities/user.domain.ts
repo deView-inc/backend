@@ -8,7 +8,7 @@ type UserSelectModel = InferSelectModel<typeof users>;
 type UserInsertModel = InferInsertModel<typeof users>;
 export type UserCreateModel = Omit<
     UserInsertModel,
-    'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'avatarUrl' | 'username'
+    'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'username'
 >;
 export type UserUpdateModel = Partial<Omit<UserCreateModel, 'email'>>;
 
@@ -68,8 +68,10 @@ export class UserEntity {
             email,
             firstName: input.firstName,
             username: UserEntity.makeUsername(email),
-            grade: input.grade,
-            stack: input.stack,
+            grade: input.grade || 'trainee',
+            stack: input.stack || [],
+            avatarUrl: input.avatarUrl || null,
+            bio: input.bio || null,
         };
     }
 

@@ -14,7 +14,6 @@ export class FindProfileQuery {
     ) {}
 
     async execute(userId: string) {
-        console.log('1');
         const entity = await this.userRepo.findProfile(userId);
 
         if (!entity) {

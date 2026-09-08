@@ -93,7 +93,6 @@ export class SignUpVerifyUseCase {
                 message: 'Аккаунт успешно подтвержден',
             };
         } catch (error) {
-            console.log(error);
             if (error instanceof BaseException) {
                 throw error;
             }
