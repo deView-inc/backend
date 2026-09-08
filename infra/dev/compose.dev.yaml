@@ -3,6 +3,29 @@ version: '3.9'
 name: deView-api
 
 services:
+    api:
+        hostname: api
+        image: ghcr.io/deview-inc/backend:dev
+        env_file:
+            - .env
+        ports:
+            - '3001:3001'
+        depends_on:
+            database:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        networks:
+            - backend
+        deploy:
+            resources:
+                limits:
+                    cpus: '2.0'
+                    memory: 1024M
+                reservations:
+                    cpus: '0.5'
+                    memory: 256M
+
     database:
         hostname: database
         image: postgres:16-alpine
