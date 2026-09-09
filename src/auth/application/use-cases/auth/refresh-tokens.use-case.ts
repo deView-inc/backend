@@ -108,6 +108,7 @@ export class RefreshTokensUseCase {
                     message: AuthErrorMessages[AuthErrorCodes.REFRESH_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

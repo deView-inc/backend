@@ -40,6 +40,7 @@ export class CreateUserUseCase {
                     message: UserErrorMessages[UserErrorCodes.CREATE_FAILED],
                 },
                 HttpStatus.INTERNAL_SERVER_ERROR,
+                error,
             );
         }
     }

@@ -13,16 +13,17 @@ export const UserSchema = z.object({
         .string()
         .min(1, 'ID не может быть пустым')
         .describe('Уникальный идентификатор пользователя'),
-    email: z.email().trim().toLowerCase().describe('Почта пользователя'),
-    username: z.string().describe('Юзернейм, например @mikhail_rasputin'),
-    firstName: z.string().describe('Имя'),
-    lastName: z.string().nullable().describe('Фамилия'),
+    email: z.email().trim().max(255).toLowerCase().describe('Почта пользователя'),
+    username: z.string().max(50).describe('Юзернейм, например @mikhail_rasputin'),
+    firstName: z.string().max(50).describe('Имя'),
+    lastName: z.string().max(50).nullable().describe('Фамилия'),
     displayName: z.string().describe('Имя и фамилия пользователя'),
     isProfileComplete: z
         .boolean()
         .describe('Показывает заполнил ли пользователь свой профиль (био, фамилию, пол и тд)'),
     occupation: z
         .string()
+        .max(50)
         .nullable()
         .describe('Краткий заголовок или должность (например: "Frontend developer / TypeScript")'),
 
@@ -32,7 +33,7 @@ export const UserSchema = z.object({
         .describe("Стек пользователя. Например: ['JavaScript', 'TypeScript', 'Go']"),
     bio: z.string().nullable().describe('О себе'),
     avatar: AvatarResponseSchema,
-    location: z.string().nullable().describe('Город или страна проживания'),
+    location: z.string().max(255).nullable().describe('Город или страна проживания'),
     gender: z
         .enum(USER_GENDERS)
         .nullable()

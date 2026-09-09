@@ -7,6 +7,7 @@ export const SecuritySchema = z
         is2faEnabled: z.boolean().describe('Статус двухфакторной аутентификации'),
         recoveryEmail: z
             .email()
+            .max(255)
             .toLowerCase()
             .describe('Дополнительная почта для восстановления доступа'),
     })

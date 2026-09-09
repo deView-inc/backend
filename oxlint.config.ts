@@ -39,6 +39,7 @@ export default defineConfig({
                 'method-signature-style': 'off',
                 'consistent-type-imports': 'off',
                 'throw-new-error': 'off',
+                'arrow-body-style': 'off',
 
                 'constructor-super': 'off',
                 'getter-return': 'off',

@@ -108,21 +108,51 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     private readonly parseHttp = (exception: BaseException, host: ArgumentsHost) => {
         const { request, response } = this.getCtxBase(host);
         const status = exception.getStatus();
-
         const error = exception.getResponse() as IErrorOptions;
+
+        const originalError = exception.cause;
+
+        let devDetails = this.isDev ? error.details || [] : [];
+        let devStack = exception.stack;
+
+        if (this.isDev && originalError) {
+            devStack = originalError instanceof Error ? originalError.stack : exception.stack;
+            devDetails = [
+                ...devDetails,
+                {
+                    original_error:
+                        originalError instanceof Error
+                            ? originalError.message
+                            : String(originalError),
+                    query:
+                        originalError &&
+                        typeof originalError === 'object' &&
+                        'query' in originalError
+                            ? originalError.query
+                            : undefined,
+                    cause:
+                        originalError &&
+                        typeof originalError === 'object' &&
+                        'cause' in originalError
+                            ? originalError.cause
+                            : undefined,
+                },
+            ];
+        }
 
         this.log(exception, host, status, {
             errorCode: error.code,
             details: error.details,
             type: 'BUSINESS_EXCEPTION',
+            original_cause: originalError,
         });
 
         return response.status(status).send(
             this.formatErrorResponse(request, status, {
                 code: error.code,
                 message: error.message || exception.message,
-                details: this.isDev ? error.details || [] : [],
-                stack: exception.stack,
+                details: devDetails,
+                stack: devStack,
             }),
         );
     };
