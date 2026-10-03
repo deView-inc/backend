@@ -30,27 +30,30 @@ export class ZodValidationInterceptor implements NestInterceptor<unknown, unknow
             return next.handle();
         }
 
-        const schema = metadata ? metadata.schema : undefined;
+        const schema = metadata?.schema;
 
         return next.handle().pipe(
             map((data) => {
                 if (!schema) {
-                    throw new BaseException(
-                        {
-                            code: 'MISSING_VALIDATION_SCHEMA',
-                            message: 'Данные ответа не соответствуют ожидаемому формату',
-                        },
-                        HttpStatus.INTERNAL_SERVER_ERROR,
-                    );
+                    return data;
                 }
 
                 const res = schema.safeParse(data);
 
                 if (!res.success) {
                     const enrichedIssues = res.error.issues.map((issue) => {
-                        const receivedValue = issue.path.reduce((acc: any, key) => {
-                            return acc !== null && acc !== undefined ? acc[key] : undefined;
-                        }, data);
+                        let receivedValue: unknown = data;
+
+                        for (const key of issue.path) {
+                            if (receivedValue !== null && receivedValue !== undefined) {
+                                receivedValue = (receivedValue as Record<string, unknown>)[
+                                    key as string
+                                ];
+                            } else {
+                                receivedValue = undefined;
+                                break;
+                            }
+                        }
 
                         return {
                             ...issue,

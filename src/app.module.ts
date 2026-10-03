@@ -13,6 +13,7 @@ import { GlobalExceptionFilter } from '@shared/error';
 import { ZodValidationInterceptor } from '@shared/interceptors';
 import { ZodValidationPipe } from 'nestjs-zod';
 
+import { RoomsModule } from './rooms/rooms.module';
 import * as schema from './shared/entities';
 
 @Module({
@@ -43,6 +44,7 @@ import * as schema from './shared/entities';
         MailModule,
         UserModule,
         AuthModule,
+        RoomsModule,
     ],
     providers: [
         {

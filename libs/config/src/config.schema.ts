@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 import { z } from 'zod/v4';
 
 import { jwtSecretValidation } from './helpers/jwt-secren-validation';
@@ -173,6 +175,25 @@ export const ConfigSchema = z.object({
         })
         .min(1, 'GITHUB_CLIENT_SECRET не может быть пустым')
         .optional(),
+
+    /* LIVEKIT */
+    LIVEKIT_API_KEY: z
+        .string({
+            error: 'Ключ LIVEKIT_API_KEY обязателен для видеозвонков',
+        })
+        .min(1, 'LIVEKIT_API_KEY не может быть пустым'),
+
+    LIVEKIT_API_SECRET: z
+        .string({
+            error: 'Секрет LIVEKIT_API_SECRET обязателен для видеозвонков',
+        })
+        .min(1, 'LIVEKIT_API_SECRET не может быть пустым'),
+
+    LIVEKIT_URL: z
+        .string({
+            error: 'LIVEKIT_URL обязателен для подключения к видеозвонкам',
+        })
+        .url('LIVEKIT_URL должен быть валидным URL (например, ws://localhost:7880)'),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
