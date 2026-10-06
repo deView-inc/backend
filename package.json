@@ -50,6 +50,7 @@
         "geoip-lite": "^2.0.3",
         "handlebars": "^4.7.9",
         "ioredis": "^6.0.0",
+        "livekit-server-sdk": "^2.19.1",
         "nest-winston": "^1.10.2",
         "nestjs-zod": "^5.5.0",
         "nodemailer": "^9.0.5",

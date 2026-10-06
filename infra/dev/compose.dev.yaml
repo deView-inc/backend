@@ -1,5 +1,3 @@
-version: '3.9'
-
 name: deView-api
 
 services:
@@ -8,12 +6,17 @@ services:
         image: ghcr.io/deview-inc/backend:dev
         env_file:
             - .env
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
         environment:
             DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@database:5432/${DB_DATABASE}
             DB_HOST: database
             DB_PORT: 5432
             REDIS_HOST: redis
             REDIS_PORT: 6379
+            LIVEKIT_URL: ws://livekit:7880 # для бэкенда (EgressClient)
+            LIVEKIT_PUBLIC_URL: ws://localhost:7880 # для клиента (wsUrl в ответе токена)
+            S3_ENDPOINT: http://host.docker.internal:9000
         ports:
             - '3001:3001'
         depends_on:
@@ -71,6 +74,49 @@ services:
             interval: 5s
             timeout: 3s
             retries: 3
+        profiles: ['infra']
+
+    livekit:
+        hostname: livekit
+        image: livekit/livekit-server:latest
+        restart: unless-stopped
+        command: --config /etc/livekit.yaml
+        environment:
+            LIVEKIT_KEYS: '${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}'
+        volumes:
+            - ./livekit.yaml:/etc/livekit.yaml:ro
+        ports:
+            - '7880:7880'
+            - '7881:7881'
+            - '7882:7882/udp'
+        depends_on:
+            redis:
+                condition: service_healthy
+        networks:
+            - backend
+        profiles: ['infra']
+
+    egress:
+        hostname: egress
+        image: livekit/egress:latest
+        restart: unless-stopped
+        cap_add:
+            - SYS_ADMIN
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        environment:
+            EGRESS_CONFIG_BODY: |
+                log_level: info
+                api_key: ${LIVEKIT_API_KEY}
+                api_secret: ${LIVEKIT_API_SECRET}
+                ws_url: ws://livekit:7880
+                redis:
+                    address: redis:6379
+                health_port: 8080
+        depends_on:
+            - livekit
+        networks:
+            - backend
         profiles: ['infra']
 
 volumes:
