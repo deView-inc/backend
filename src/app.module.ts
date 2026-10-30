@@ -1,5 +1,6 @@
 import { AuthModule } from '@core/auth/auth.module';
 import { RoomsModule } from '@core/rooms/rooms.module';
+import { TasksModule } from '@core/tasks/tasks.module';
 import { UserModule } from '@core/user';
 import { ConfigModule } from '@libs/config';
 import { DatabaseModule } from '@libs/database';
@@ -44,6 +45,7 @@ import * as schema from './shared/entities';
         MailModule,
         UserModule,
         AuthModule,
+        TasksModule,
         RoomsModule,
     ],
     providers: [

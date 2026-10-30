@@ -1,9 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import type { IRoomRepository } from '@core/rooms/domain/repository';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EgressClient, EncodedFileOutput, EncodedFileType, S3Upload } from 'livekit-server-sdk';
 
+import { RoomErrors } from './room-access';
+import { requireRoomPermission } from './room-guard';
+
 export interface StartRecordingInput {
     roomId: string;
+    userId: string;
 }
 
 export interface StartRecordingOutput {
@@ -12,9 +17,19 @@ export interface StartRecordingOutput {
 
 @Injectable()
 export class StartRoomRecordingUseCase {
-    constructor(private readonly config: ConfigService) {}
+    constructor(
+        private readonly config: ConfigService,
+        @Inject('IRoomRepository') private readonly rooms: IRoomRepository,
+    ) {}
 
-    async execute({ roomId }: StartRecordingInput): Promise<StartRecordingOutput> {
+    async execute({ roomId, userId }: StartRecordingInput): Promise<StartRecordingOutput> {
+        // Писать может только тот, у кого есть право record (interviewer)
+        const room = await requireRoomPermission(this.rooms, roomId, userId, 'record');
+
+        if (!room.recording) {
+            throw RoomErrors.recordingDisabled();
+        }
+
         const egressClient = new EgressClient(
             this.config.getOrThrow<string>('LIVEKIT_URL'),
             this.config.getOrThrow<string>('LIVEKIT_API_KEY'),
